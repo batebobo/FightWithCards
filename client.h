@@ -2,43 +2,40 @@
 #define CLIENT_H
 #include <cstring>
 
+
 class Client
 {
 private:
-	char* firstName;
-	char* lastName;
-	double money;
-
+	char* firstName; // име на клиента
+	char* lastName; // фамилия на клиента
+	double money; // пари на клиента
+	double * product , * quantity , * price; // количка на клиента
+	int number; // количка на клиента
 public:
 	Client(char* name, char* last_name , double _money) 
 	{
 		firstName = name;
 		lastName = last_name;
 	    money = _money;
+		product = quantity = price = NULL;
+		number = 0;
 	}
 	char* getFirstName() const{return firstName;}
 	char* getLastName() const{return lastName;}
 	double getClientMoney() const {return money;}
-	void remove()
+
+	void remove() // клиентът напуска магазина
 	{
 		delete[] firstName;
 		delete[] lastName;
 	}
 
+	void addToCart(Product& ); // добавяне на продукт в количката на клиента
+	void pay(); // плащане на продуктите 
+
 };
 
-Client newClient()
-	{
-		double _money;
-		char* first_name = new char[30] , *last_name = new char[30];
-		cout<<"Enter client's first name : ";
-		cin>>first_name;
-		cout<<"Enter client's last name : ";
-		cin>>last_name;
-		cout<<"Enter client's money : ";
-		cin>>_money;
-		return Client(first_name , last_name , _money);
-	}
+Client newClient(); // създаване на нов клиент т.е. клиент влиза в магазина
 
 
 #endif
