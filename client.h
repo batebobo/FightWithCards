@@ -23,6 +23,10 @@ public:
 	char* getFirstName() const{return firstName;}
 	char* getLastName() const{return lastName;}
 	double getClientMoney() const {return money;}
+	double* getProduct() const {return product;} // достъп до продуктите от количката
+	double* getQuantity() const {return quantity;}
+	double* getPrice() const {return price;}
+	int getNumber() const {return number;} 
 
 	void remove() // клиентът напуска магазина
 	{

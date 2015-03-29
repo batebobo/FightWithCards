@@ -15,12 +15,12 @@ Client newClient()
 		cin>>last_name;
 		cout<<"Enter client's money : ";
 		cin>>_money;
-		return Client(first_name , last_name , _money , NULL , NULL , NULL , 0);
+		return Client(first_name , last_name , _money);
 	}
 
-int* resize(int* arr , int old , int next) // увеличаване капацитета на количката
+double* resize(double* arr , int old , int next) // увеличаване капацитета на количката
 {
-	int* newarr = new double[next];
+	double* newarr = new double[next];
 	for(int i = 0 ; i < old ; i++)
 		newarr[i] = arr[i];
 	delete[] arr;
@@ -38,7 +38,7 @@ void Client::addToCart(Product& p)
 			size *= 2;
 			product = resize(product , oldSize , size);
 			quantity = resize(quantity , oldSize , size);
-			price = price(product , oldSize , size);
+			price = resize(product , oldSize , size);
 		}
 	product[number] = p.getNumber(); // записване на номера на продукта
 	int k;
