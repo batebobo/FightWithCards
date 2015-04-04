@@ -1,8 +1,9 @@
 #include "card.h"
 #include<iostream>
 #include<cstring>
-Card::Card(int _attack ,int _health , char* _name , int _mana_cost ):attack(_attack) , health(_health) , name(NULL) , mana_cost(_mana_cost){
+Card::Card(int _attack ,int _health , char* _name , int _mana_cost):attack(_attack) , health(_health) , name(NULL) , mana_cost(_mana_cost) {
     setName(_name);
+    isActive = true;
 }
 Card::Card(const Card& c):name(NULL){
     copy(c);
@@ -36,4 +37,11 @@ void Card::destroy(){
 }
 void Card::print_card() const {
     std::cout<<"Card: "<<name<<"\nAttack: "<<attack<<"\nHealth: "<<health<<"\nMana cost: "<<mana_cost<<std::endl;
+}
+void Card::changeState(){
+    if(isActive){
+        isActive = false;
+    }else{
+        isActive = true;
+    }
 }
