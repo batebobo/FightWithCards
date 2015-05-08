@@ -7,7 +7,7 @@ class Deck;
 class Hand
 {
 private:
-	Card* hand;
+	Card* hand[10];
 	int number;
 
 public:
