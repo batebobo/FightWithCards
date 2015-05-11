@@ -4,6 +4,7 @@
 #include "card.h"
 #include<ctime>
 #include<cstdlib>
+const char* default = "default";
 
 Deck::Deck(char* _name , Card* _cards):name(NULL), position(0), empty(false){
     setName(_name);
@@ -85,5 +86,5 @@ Card Deck::drawCard(){
         	return deck[position -1];
         }
 		empty = true;
-		return *new Card("default",0,31);
+		return *new Card(default,0,31);
 }
