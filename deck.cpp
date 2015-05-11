@@ -79,10 +79,11 @@ void Deck::shuffle(){
 
 
 Card Deck::drawCard(){
-		position++;
-		if(position == 30)
+	position++;
+	if(position <30)
         {
-            empty = true;
+        	return deck[position -1];
         }
-		return deck[position -1];
+		empty = true;
+		return *new Card("default",0,31);
 }
