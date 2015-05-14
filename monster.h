@@ -1,36 +1,27 @@
 #ifndef MONSTER_H_
 #define MONSTER_H_
-class Monster {
+#include "Card.h"
+
+class Monster:public Card
+{
 private:
-	char* nameMonster;
 	int attack;
 	int health;
-
 public:
-	Monster (char* = "", int = 0, int = 0);
-	Monster (Monster const&);
-	
-	char const* getNameMonster () const
-	{
-		return nameMonster;
-	}
-
+	Monster (char* = "",int = 0,int = 0, int = 0, int = 0);
 	int getAttack () const
 	{
 		return attack;
-	}	
+	}
 
 	int getHealth () const
 	{
 		return health;
 	}
 
-	void setNameMonster (char const*);
 	void setAttack (int a) {attack = a; }
 	void setHealth (int h) {health = h;}
-	void print () const;
-
-	~Monster();
+	void print ();
 };
 
 #endif /* MONSTER_H_ */
