@@ -1,9 +1,12 @@
+#include "stdafx.h"
 #include <iostream>
 #include "hand.h"
+#include "Card.h"
+#include "deck.h"
 
 using namespace std;
 
-Hand::Hand(Card a , Card b , Card c) : number(3)
+Hand::Hand(Card& a , Card& b , Card& c) : number(3)
 {
 	hand[0] = &a;
 	hand[1] = &b;
@@ -20,10 +23,10 @@ void Hand::drawCard(Deck& deck)
 	}
 }
 
-void Hand::printHand() const
+void Hand::printHand()
 {
 	for(int i = 0 ; i < number ; i++)
-		hand[i]->print_card();
+		hand[i]->print();
 }
 
 Card& Hand::useCard(Card& card)
@@ -36,4 +39,5 @@ Card& Hand::useCard(Card& card)
 			number--;
 			return card;
 		}
+	return Card();
 }

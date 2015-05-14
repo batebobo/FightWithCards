@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "SpellCard.h"
+
 
 void SpellCard::setProperties(int _effect, int _damage) { 
 	if(_effect < 0 || _effect > 5) { 
@@ -31,16 +33,16 @@ SpellCard::SpellCard(char* _name, int _number, int _cost, int _effect, int _dama
 	setProperties(_effect, _damage);
 }
 
-void SpellCard::freezeCreature(Creature& creature) {
+void SpellCard::freezeMonster(Monster& creature) {
 	//creature.changeStateTo("frozen");
 }
 
-void SpellCard::dealDamageToCreature(Creature& creature) { 
+void SpellCard::dealDamageToMonster(Monster& creature) { 
 	if(effect == 0 || effect == 2) { 
 		//creature.hp -= damage
 	}
 	if(effect == 2) { 
-		freezeCreature(creature);
+		freezeMonster(creature);
 	}
 	if(effect == 4) { 
 		//creature.hp = 0;

@@ -1,10 +1,9 @@
 #pragma once
-#include "c:\users\boyan\desktop\cardgame\trunk\Card.h"
 
-class Creature;
+class Monster;
 class Player;
-class SpellCard :
-	Card
+#include "Card.h"
+class SpellCard : public Card
 {
 private:
 	int effect;
@@ -21,8 +20,8 @@ public:
 
 	void setProperties(int, int);
 	
-	void freezeCreature(Creature&);
-	void dealDamageToCreature(Creature&);
+	void freezeMonster(Monster&);
+	void dealDamageToMonster(Monster&);
 	void dealDamageToPlayer(Player&);
 
 	void healPlayer(Player&);

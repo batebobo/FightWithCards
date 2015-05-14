@@ -12,7 +12,7 @@ Monster::Monster (char* _nameMonster, int _number, int _manaCost, int _attack, i
 
 void Monster::print ()
 {
-	Card::print();
+	Card::printCard();
 	cout<<"Attack: "<<getAttack() <<endl;
 	cout<<"Health: "<<getHealth() <<endl;
 }

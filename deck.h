@@ -1,7 +1,6 @@
-#ifndef DECK _H
-#define DECK _H
-#include "card.h"
-class Card;
+#ifndef DECK_H
+#define DECK_H
+#include "Card.h"
 
 class Deck
 {
@@ -21,11 +20,11 @@ class Deck
         Deck(const Deck&);
 
         void shuffle();
-        void printDeck()const;
+        void printDeck();
         void setName(char*);
         void setCards(const Card*);
         bool isEmpty()const {return empty ;}
-		Card drawCard();
+		Card& drawCard();
 
 };
 #endif // DECK

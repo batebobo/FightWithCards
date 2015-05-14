@@ -4,14 +4,13 @@
 #include "stdafx.h"
 #include <iostream>
 #include "Card.h"
-#include "MyString.h"
 using namespace std;
 
 void Card::copy(const Card &other)
 {
-	this->name=other.name;
-	this->manacost=other.manacost;
-	this->number=other.number;
+	name=other.name;
+	manacost=other.manacost;
+	number=other.number;
 }
 
 Card::Card() {
@@ -23,9 +22,9 @@ Card::Card() {
 
 Card::Card(Mystring name, int number, int manacost)
 {
-	this->name=name;
-	this->number=number;
-	this->manacost=manacost;
+	name=name;
+	number=number;
+	manacost=manacost;
 }
 
 Card::Card(char* name, int number, int manacost)
@@ -42,7 +41,8 @@ Card::Card(const Card &other) {
 
 Card Card::operator=(const Card &other)
 {
-	if (this!=&other) copy(other);
+	if (this!=&other) 
+		copy(other);
 	return *this;
 }
 
@@ -51,18 +51,10 @@ int Card::getNumber() const
 	return number;
 }
 
-void Card::print()
+void Card::printCard()
 {
 	cout<<"Name: "<<name<<endl;
 	cout<<"Number: "<<number<<endl;
 	cout<<"Manacost: "<<manacost<<endl;
-}
-
-int main(int argc, _TCHAR* argv[])
-{
-	Card p;
-	p.print();
-
-	return 0;
 }
 

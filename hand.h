@@ -11,9 +11,9 @@ private:
 	int number;
 
 public:
-	Hand(Card , Card , Card);
+	Hand(Card& , Card& , Card&);
 	void drawCard(Deck&);
-	void printHand() const;
+	void printHand();
 	Card& useCard(Card&);
 	int cardCounter(){return number;}
 };

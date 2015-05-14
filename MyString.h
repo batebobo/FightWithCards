@@ -1,5 +1,6 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
+#include <iostream>
 #include <cstring>
 using namespace std;
 
@@ -59,13 +60,14 @@ public:
 		return sizea;
 	}
 
-    friend ostream& operator<<(ostream &os, Mystring &other)
-    {
-		for(int i=0; i<other.getSize();i++) os<<other.mystring[i];
-        return os;
-    }
+    friend ostream& operator<<(ostream &, Mystring &);
 
 };
 
-
+ ostream& operator<<(ostream & os, Mystring & other)
+    {
+		for(int i=0; i<other.getSize();i++) 
+			os<<other.mystring[i];
+        return os;
+    }
 #endif // MYSTRING_H

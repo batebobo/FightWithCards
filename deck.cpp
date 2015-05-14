@@ -1,10 +1,12 @@
+#include "stdafx.h"
 #include<iostream>
 #include<cstring>
 #include "deck.h"
-#include "card.h"
+//#include "Card.h"
 #include<ctime>
 #include<cstdlib>
-const char* default = "default";
+#include "MyString.h"
+const Mystring default("default");
 
 Deck::Deck(char* _name , Card* _cards):name(NULL), position(0), empty(false){
     setName(_name);
@@ -56,9 +58,9 @@ void Deck::setCards(const Card _cards[30]){
     }
 }
 
-void Deck::printDeck() const {
+void Deck::printDeck(){
     for(int i = position ; i < 30 ; i++){
-		deck[i].print_card();
+		deck[i].print();
 		std::cout<<std::endl;
     }
 }
@@ -71,7 +73,6 @@ void Deck::shuffle(){
     for(int i = 0 ; i < 1000 ; i++){
         from = rand()%30;
         to = rand()%30;
-        std::cout<<"swapping "<<from<<" with "<<to<<std::endl;
         swap = deck[from];
         deck[from] = deck[to];
         deck[to] = swap;
@@ -79,12 +80,12 @@ void Deck::shuffle(){
 }
 
 
-Card Deck::drawCard(){
+Card& Deck::drawCard(){
 	position++;
-	if(position <30)
+	if(position < 30)
         {
         	return deck[position -1];
         }
-		empty = true;
-		return *new Card(default,0,31);
+	empty = true;
+	return *new Card(default,0,31);
 }

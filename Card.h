@@ -16,8 +16,9 @@ public:
 	Card(const Card&);
 	Card operator=(const Card&);
 	int getNumber() const;
-	virtual void use() const;
-	void print();
+	//virtual void use() =0;
+	virtual void print(){}
+	void printCard();
 };
 
 #endif CARD_H_
