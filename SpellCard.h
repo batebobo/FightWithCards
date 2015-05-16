@@ -13,6 +13,7 @@ private:
 public:
 	SpellCard(char* = "", int = 0, int = 0, int = 0, int = 0);
 	SpellCard(const SpellCard&);
+	SpellCard& operator=(SpellCard const&);
 
 	int getEffectNumber() const { return effect; }
 	int getDamageInformation() const { return damage; }
@@ -26,6 +27,7 @@ public:
 
 	void healPlayer(Player&);
 
+	void print();
 
 	~SpellCard();
 };

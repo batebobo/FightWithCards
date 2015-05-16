@@ -12,24 +12,36 @@ void SpellCard::setProperties(int _effect, int _damage) {
 	
 	switch(effect) { 
 		case 0: 
-			readOnlyEffect = "Just deals damage";
+			readOnlyEffect =  new char[18];
+			strcpy(readOnlyEffect , "Just deals damage");
 			damage = _damage;
 			break;
-		case 1: readOnlyEffect = "Just freezes"; break;
+		case 1: 
+			readOnlyEffect = new char[13];
+			strcpy(readOnlyEffect , "Just freezes"); 
+			break;
 		case 2: 
-			readOnlyEffect = "Deals damage and freezes"; 
+			readOnlyEffect = new char[25];
+			strcpy(readOnlyEffect , "Deals damage and freezes"); 
 			damage = _damage;
 			break;
 		case 3: 
-			readOnlyEffect = "Damages player"; 
+			readOnlyEffect = new char[15];
+			strcpy(readOnlyEffect , "Damages player");
 			damage = _damage;
 			break;
-		case 4: readOnlyEffect = "Destroys monster"; break;
-		case 5: readOnlyEffect = "Restores HP to the player"; break;
+		case 4: 
+			readOnlyEffect = new char[17];
+			strcpy(readOnlyEffect , "Destroys monster");
+			break;
+		case 5: 
+			readOnlyEffect = new char[26];
+			strcpy(readOnlyEffect , "Restores HP to the player");
+			break;
 	}
 }
 
-SpellCard::SpellCard(char* _name, int _number, int _cost, int _effect, int _damage): Card(_name, _number, _cost) {
+SpellCard::SpellCard(char* _name, int _number, int _cost, int _effect, int _damage): Card(_name, _number, _cost) , readOnlyEffect(NULL){
 	setProperties(_effect, _damage);
 }
 
@@ -57,12 +69,9 @@ void SpellCard::healPlayer(Player& player) {
 	//player.hp += damage;
 }
 
-SpellCard::SpellCard(const SpellCard& spellCard) { 
+SpellCard::SpellCard(const SpellCard& spellCard) : readOnlyEffect(NULL) { 
 	int len = strlen(spellCard.getReadonlyEffectInformation());
 
-	if(readOnlyEffect != NULL){ 
-		delete[] readOnlyEffect;
-	}
 	readOnlyEffect = new char[len + 1];
 	strcpy(readOnlyEffect, spellCard.getReadonlyEffectInformation());
 
@@ -70,7 +79,30 @@ SpellCard::SpellCard(const SpellCard& spellCard) {
 	damage = spellCard.getDamageInformation();
 }
 
-SpellCard::~SpellCard(void)
+SpellCard::~SpellCard()
 {
-	delete[] readOnlyEffect;
+	if(readOnlyEffect != NULL)
+		delete[] readOnlyEffect;
+}
+
+SpellCard& SpellCard::operator=(SpellCard const& spell)
+{
+	if(this != &spell)
+	{
+		int len = strlen(spell.getReadonlyEffectInformation());
+		if(readOnlyEffect != NULL)
+			delete[] readOnlyEffect;
+		readOnlyEffect = new char[len + 1];
+		strcpy(readOnlyEffect, spell.getReadonlyEffectInformation());
+
+		effect = spell.getEffectNumber();
+		damage = spell.getDamageInformation();
+	}
+	return *this;
+}
+
+void SpellCard::print() {
+	printCard();
+	cout<<"Effect : "<<readOnlyEffect<<endl;
+	cout<<"Effect power : "<<damage<<endl;
 }
