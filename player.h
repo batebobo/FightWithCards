@@ -14,6 +14,7 @@ public:
     Player(Mystring,Deck,Hero);
     void turn();
     void print();
+	Mystring getName() const { return name; }
 private:
     Hand hand;
     Deck deck;

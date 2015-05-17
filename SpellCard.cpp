@@ -1,6 +1,6 @@
 #include "SpellCard.h"
 
-void SpellCard::setProperties(effects _effect, int _effectValue) {
+void SpellCard::setProperties(Effects _effect, int _effectValue) {
 
 
 	if(_effect < dealDamageToCreature || _effect > healYourself) {
@@ -31,32 +31,46 @@ void SpellCard::setProperties(effects _effect, int _effectValue) {
 	effectValue = _effectValue;
 }
 
-SpellCard::SpellCard(effects _effect, char* _name, int _number, int _cost,int _damage): Card(_name, _number, _cost) , readOnlyEffect(NULL){
+SpellCard::SpellCard(Effects _effect, char* _name, int _number, int _cost,int _damage): Card(_name, _number, _cost) , readOnlyEffect(NULL){
 	setProperties(_effect, _damage);
 }
 
-void SpellCard::freezeMonster(Monster& creature) {
-	//creature.changeStateTo("frozen");
-}
-
 void SpellCard::dealDamageToMonster(Monster& creature) {
-	if(effect == 0 || effect == 2) {
-		//creature.hp -= damage
-	}
-	if(effect == 2) {
-		freezeMonster(creature);
-	}
-	if(effect == 4) {
-		//creature.hp = 0;
+	if(effect == Effects::dealDamageToCreature) { 
+		creature.setHealth(creature.getHealth() - effectValue);
 	}
 }
 
 void SpellCard::dealDamageToHero(Hero& hero) {
-	//player.hp -= damage;
+	if(effect == Effects::damageHero) { 
+		hero.setHealth(hero.getHealth() - effectValue);
+	}
 }
 
 void SpellCard::healHero(Hero& hero) {
-	//player.hp += damage;
+	if(effect == Effects::healYourself) {
+		hero.setHealth(hero.getHealth() + effectValue);
+	}
+}
+
+void SpellCard::buffMonster(Monster& monster) { 
+	if(effect == Effects::buffCreature) {
+		monster.setAttack(monster.getAttack() + effectValue);
+	}
+}
+
+
+void SpellCard::useSpellCard(Monster& monster) { 
+	switch(effect) { 
+	case dealDamageToCreature: dealDamageToMonster(monster); break;
+	case buffCreature: buffMonster(monster); break;
+	}
+}
+void SpellCard::useSpellCard(Hero& hero) { 
+	switch(effect) { 
+	case damageHero: dealDamageToHero(hero); break;
+	case healYourself: healHero(hero); break;
+	}
 }
 
 SpellCard::SpellCard(const SpellCard& spellCard) :Card(spellCard), readOnlyEffect(NULL) {

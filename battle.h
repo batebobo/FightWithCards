@@ -14,7 +14,7 @@ public:
 	Battle(Player& , Player& , int = 0);
 	Battle(Battle const&);
 	
-	void play(Player&);
+	void play(Player&, Player&);
 	void beginBattle();
 
 };
