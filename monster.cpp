@@ -9,7 +9,7 @@ Monster::Monster (char* _nameMonster, int _number, int _manaCost, int _attack, i
 {
 	power = _attack;
 	health = _health;
-	hasAttacked = _hasAttacked;
+	has_attacked = _hasAttacked;
 }
 
 void Monster::print ()

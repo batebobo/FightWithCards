@@ -5,7 +5,7 @@
 class Deck
 {
    private:
-       void copy(Deck);
+       void copy(Deck&);
        void destroy();
        char* name;
 	   Card* deck[30];
@@ -16,8 +16,8 @@ class Deck
        //THE BIG 4
         Deck(char* = "" , Card** = NULL);
         ~Deck();
-        Deck& operator=(const Deck&);
-        Deck(const Deck&);
+        Deck& operator=(Deck&);
+        Deck(Deck&);
 
         void shuffle();
         void printDeck();

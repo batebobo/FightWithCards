@@ -12,12 +12,12 @@ Deck::Deck(char* _name ,Card** _cards):name(NULL), position(0), empty(false){
     setCards(_cards);
 }
 
-Deck::Deck(const Deck& other):name(NULL){
+Deck::Deck(Deck& other):name(NULL){
     copy(other);
     std::cout<<"Deck copied! \n";
 }
 
-Deck& Deck::operator=(const Deck& other){
+Deck& Deck::operator=(Deck& other){
 	if (this != &other)
 	{
 		std::cout << "Deck: " << name << " set to deck: " << other.name << std::endl;
@@ -36,7 +36,7 @@ void Deck::destroy(){
 }
 
 
-void Deck::copy(Deck other){
+void Deck::copy(Deck& other){
     setName(other.name);
     setCards(other.deck);
 	position = other.position;
@@ -53,7 +53,7 @@ void Deck::setName(char* _name){
 
 void Deck::setCards(Card* _cards[30]){
     for(int i = 0 ; i < 30 ; i++){
-        deck[i] = _cards[i];
+			deck[i] = _cards[i];
     }
 }
 

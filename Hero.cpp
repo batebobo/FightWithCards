@@ -5,12 +5,12 @@
 
 using namespace std;
 
-Hero::Hero(char* _name , int _health ) : health(_health) , name(NULL)
+Hero::Hero(char* _name , int _health , int manacost , bool attacked) : health(_health) , name(NULL) , skill_manacost(manacost) , has_attacked(attacked)
 {
 	setName(_name);
 }
 
-Hero::Hero(const Hero& other) : health(other.health) , name(NULL)
+Hero::Hero(const Hero& other) : health(other.health) , name(NULL) , skill_manacost(other.skill_manacost) , has_attacked(other.has_attacked)
 {
 	setName(other.name);
 }
@@ -19,6 +19,8 @@ Hero& Hero::operator=(const Hero& other)
 {
 	if(this != &other)
 	{
+		skill_manacost = other.getSkillManacost();
+		has_attacked = other.hasAttacked();
 		health = other.getHealth();
 		setName(other.getName());
 	}
@@ -34,8 +36,9 @@ Hero::~Hero()
 
 void Hero::print() const
 {
-	cout<<"Health : "<<health <<endl;
-	cout<<"Name : "<<name <<endl;
+	cout<<"Health : "<<getHealth()<<endl;
+	cout<<"Name : "<<getName()<<endl;
+	cout<<"Skill manacost : "<<getSkillManacost()<<endl;
 }
 
 void Hero::setName(char* _name)

@@ -8,7 +8,7 @@ class Monster:public Card
 private:
 	int power;
 	int health;
-	bool hasAttacked;
+	bool has_attacked;
 public:
 	Monster (char* = "",int = 0,int = 0, int = 0, int = 0 , bool = true);
 	int getAttack () const
@@ -26,7 +26,9 @@ public:
 	void attack(Monster&);
 	void attack(Hero&);
 	void print ();
-	bool isMonster(){return true;}
+
+	bool hasAttacked() const{return has_attacked;}
+	bool isMonster() {return true;}
 };
 
 #endif /* MONSTER_H_ */
