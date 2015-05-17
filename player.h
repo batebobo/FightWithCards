@@ -11,17 +11,17 @@
 class Player
 {
 public:
-    Player(Mystring,Deck,Hero);
-    void turn();
+    Player(Mystring,Deck&,Hero);
     void print();
-	Mystring getName() const { return name; }
+    void useCard(int);
 private:
     Hand hand;
     Deck deck;
     Hero hero;
-    Card field[7];
+    Monster field[7];
     int fatigue;
     int mana;
+    int monstersInField;
     Mystring name;
 };
 #endif // PLAYER_H
