@@ -25,6 +25,8 @@ public:
 
 	virtual void attack(Monster&){}
 	virtual void attack(Hero&){}
+	virtual void useSpellCard(Monster&){}
+	virtual void useSpellCard(Hero&){}
 };
 
 #endif CARD_H_
