@@ -1,17 +1,18 @@
 #ifndef MONSTER_H_
 #define MONSTER_H_
 #include "Card.h"
+#include "Hero.h"
 
 class Monster:public Card
 {
 private:
-	int attack;
+	int power;
 	int health;
 public:
 	Monster (char* = "",int = 0,int = 0, int = 0, int = 0);
 	int getAttack () const
 	{
-		return attack;
+		return power;
 	}
 
 	int getHealth () const
@@ -19,8 +20,10 @@ public:
 		return health;
 	}
 
-	void setAttack (int a) {attack = a; }
+	void setAttack (int p) {power = a; }
 	void setHealth (int h) {health = h;}
+	void attack(Monster&);
+	void attack(Hero&);
 	void print ();
 };
 

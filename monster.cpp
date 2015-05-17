@@ -6,7 +6,7 @@ using namespace std;
 
 Monster::Monster (char* _nameMonster, int _number, int _manaCost, int _attack, int _health):Card(_nameMonster,_number,_manaCost)
 {
-	attack = _attack;
+	power = _attack;
 	health = _health;
 }
 
@@ -17,4 +17,13 @@ void Monster::print ()
 	cout<<"Health: "<<getHealth() <<endl;
 }
 
+void Monster::attack(Monster& m)
+{
+	m.setHealth(m.getHealth() - getAttack());
+	setHealth(getHealth() - m.getAttack());
+}
 
+void Monster::attack(Hero& h)
+{
+	h.setHealth(h.getHealth() - getAttack());
+}
