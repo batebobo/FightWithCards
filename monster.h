@@ -8,8 +8,9 @@ class Monster:public Card
 private:
 	int power;
 	int health;
+	bool hasAttacked;
 public:
-	Monster (char* = "",int = 0,int = 0, int = 0, int = 0);
+	Monster (char* = "",int = 0,int = 0, int = 0, int = 0 , bool = true);
 	int getAttack () const
 	{
 		return power;
