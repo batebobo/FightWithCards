@@ -49,6 +49,20 @@ public:
         }
         return *this;
     }
+    Mystring operator=(char *other)
+    {
+        if(mystring != NULL){
+            delete[] mystring;
+        }
+        mystring= new char[strlen(other) +1];
+        sizea=strlen(mystring);
+
+        for(int i=0; i<sizea; i++)
+        {
+            mystring[i]=other[i];
+        }
+        return *this;
+    }
 
     ~Mystring()
     {
@@ -66,7 +80,7 @@ public:
 
  ostream& operator<<(ostream & os, Mystring & other)
     {
-		for(int i=0; i<other.getSize();i++) 
+		for(int i=0; i<other.getSize();i++)
 			os<<other.mystring[i];
         return os;
     }
