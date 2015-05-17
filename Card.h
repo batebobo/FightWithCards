@@ -3,6 +3,9 @@
 
 #include "MyString.h"
 
+class Monster;
+class Hero;
+
 class Card {
 private:
 	Mystring name;
@@ -16,9 +19,12 @@ public:
 	Card(const Card&);
 	Card operator=(const Card&);
 	int getNumber() const;
-	//virtual void use() =0;
+
 	virtual void print(){}
 	void printCard();
+
+	virtual void attack(Monster&){}
+	virtual void attack(Hero&){}
 };
 
 #endif CARD_H_
