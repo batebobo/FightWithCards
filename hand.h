@@ -3,6 +3,8 @@
 
 class Card;
 class Deck;
+class Monster;
+class SpellCard;
 
 class Hand
 {
@@ -15,8 +17,9 @@ public:
 	Hand();
 	void drawCard(Deck&);
 	void printHand();
-	Card& useCard(Card&);
+	Card* useCard(int);
 	int cardCounter(){return number;}
+	Card& getCard(int);
 };
 
 #endif

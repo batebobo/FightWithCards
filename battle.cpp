@@ -1,5 +1,7 @@
 #include "battle.h"
 #include <iostream>
+#include<ctime>
+#include<cstdlib>
 
 using namespace std;
 
@@ -20,7 +22,7 @@ void Battle::beginBattle()
 	srand(time(NULL));
 	firstPlayer = rand()%2;
 
-	while(P1.getHero().getHP() > 0 && P2.getHero().getHP() > 0) 
+	while(P1.getHero().getHealth() > 0 && P2.getHero().getHealth() > 0) 
 	{
 		if(firstPlayer == 0)
 		{
@@ -47,85 +49,77 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 	bool endTurn = false;
 	while(!endTurn)
 	{
-		bool summonedMonster = false;
-		if(!summonedMonster)
+		int k;
+		cout<<"Press 9 to end your turn."<<endl;
+		cout<<"Press 0 to set monster on the battlefield."<<endl;
+		cout<<"Press 1 to use spell card on hero." << endl;
+		cout<<"Press 2 to use spell card on monster."<<endl;
+		cout<<"Press 3 to attack enemy monster."<<endl;
+		cout<<"Press 4 to attack enemy hero."<<endl;
+		cout<<"Press 5 to use hero skill."<<endl;
+		cout<<"Press 6 to see own hand , hero and field."<<endl;
+		cout<<"Press 7 to see enemy hero and field."<<endl;
+		cin >> k;
+		switch(k) 
 		{
-			int k;
-			cout<<"Press 9 to end your turn."<<endl;
-			cout<<"Press 0 to set monster on the battlefield."<<endl;
-			cout<<"Press 1 to use spell card on hero." << endl;
-			cout<<"Press 2 to use spell card on monster."<<endl;
-			cout<<"Press 3 to attack enemy monster."<<endl;
-			cout<<"Press 4 to attack enemy hero."<<endl;
-			cout<<"Press 5 to use hero skill."<<endl;
-			cin >> k;
-			switch(k) 
-			{
-				case 0 : // Monster use
-					currentTurnPlayer.hand.printHand();
-					cout << "Enter the name of the monster you want to play!" << endl;
-					int index; cin >> index;
-					currentTurnPlayer.useCard(index); //if monster, and if valid index // Error - private access
-					summonedMonster = true;
+			case 0 : // Monster use
+				currentTurnPlayer.getHand().printHand();
+				cout << "Enter the number of the monster you want to play!" << endl;
+				int index; cin >> index;
+				currentTurnPlayer.useCard(index); //if monster, and if valid index
 
-					//Player.useCard(n) - puts n-th card from Player.hand in the field array;
-				break;
-				case 1: // SpellCard on hero
+			break;
+			case 1: // SpellCard on hero
 	
+			break;
+			case 2 : //SpellCard use
+				currentTurnPlayer.getHand().printHand(); 
+				cout << "Enter the index of the spell card you want to play!" << endl;
+				int index2; cin >> index2;
+				currentTurnPlayer.useCard(index2); //if spell and if valid index
+			break;
+			case 3 : 
+				//If Player.field is empty, skip this step
+				//first - with which monster to perform the attack - from attacking player field
+				//second - which monster to be attacked by first - from defending player field
+
+				cout << "Enter the index with which you want to attack the enemy!" << endl;
+				int attackingIndex; cin >> attackingIndex;
+				currentTurnPlayer.getField()[attackingIndex]->printCard();
+
+				cout << "Enter the index of the monster you wish to attack!" << endl;
+				int defendingIndex; cin >> defendingIndex;
+				inactivePlayer.getField()[defendingIndex]->printCard(); 
+				// attack inactivePlayer.field[defendingIndex]
+				currentTurnPlayer.getField()[attackingIndex]->attack((Monster&)inactivePlayer.getField()[defendingIndex]); 
+			break;
+			case 4 : 
+				cout << "Enter the index with which you want to attack the enemy!" << endl;
+				int attackingIndex2; cin >> attackingIndex2;
+				currentTurnPlayer.getField()[attackingIndex2]->printCard();
+				currentTurnPlayer.getField()[attackingIndex2]->attack(inactivePlayer.getHero()); 
 				break;
-				case 2 : //SpellCard use
-					currentTurnPlayer.hand.printHand(); //Error - private access
-					cout << "Enter the index of the spell card you want to play!" << endl;
-					int index; cin >> index;
-					currentTurnPlayer.useCard(index); //if spell and if valid index // Error - private access
-					//Player.useCard(n) - plays n-th card from Player.hand *if it's a spell*;
+			case 5 : 
+				currentTurnPlayer.getHero().usePower(inactivePlayer.getHero()); 
 				break;
-				case 3 : 
-					//If Player.field is empty, skip this step
-					//first - with which monster to perform the attack - from attacking player field
-					//second - which monster to be attacked by first - from defending player field
-
-					cout << "Enter the index with which you want to attack the enemy!" << endl;
-					int attackingIndex; cin >> attackingIndex;
-					currentTurnPlayer.field[attackingIndex].printCard(); //Error - private access
-
-					cout << "Enter the index of the monster you wish to attack!" << endl;
-					int defendingIndex; cin >> defendingIndex;
-					inactivePlayer.field[defendingIndex].printCard(); //Error - private access
-					// attack inactivePlayer.field[defendingIndex]
-					currentTurnPlayer.field[attackingIndex].attack(inactivePlayer.field[defendingIndex]); //Error - Card has no function "Attack", Private access
+			case 6 : 
+				cout<<"Hand : "<<endl;
+				currentTurnPlayer.getHand().printHand();
+				cout<<"Hero : "<<endl;
+				currentTurnPlayer.getHero().print();
+				cout<<"Field : "<<endl;
+				for(int i = 0 ; i < currentTurnPlayer.getMonsterInField() ; i++)
+					currentTurnPlayer.getField()[i]->print();
 				break;
-				case 4 : 
-					currentTurnPlayer.hero.attack(inactivePlayer.hero); //Error - private access
-					; break;
-				case 5 : 
-					currentTurnPlayer.hero.usePower(inactivePlayer.hero); //Error - private access
-					; break;
-				case 9 : endTurn = true; break;
-				default : cout<<"Incorrect command input!"<<endl; 
-
-			}
-		}
-		else
-		{
-			//Same as above - just without the option to play a monster
-			int k;
-			cout<<"Press 9 to end your turn."<<endl;
-			cout<<"Press 1 to use spell card."<<endl;
-			cout<<"Press 2 to attack enemy monster."<<endl;
-			cout<<"Press 3 to attack enemy hero."<<endl;
-			cout<<"Press 4 to use hero skill."<<endl;
-			cin >> k;
-			switch(k) 
-			{
-				case 1 : ;
-				case 2 : ;
-				case 3 : ;
-				case 4 : ;
-				case 9 : endTurn = true; break;
-				default : cout<<"Incorrect command input!"<<endl;
-
-			}
+			case 7 :
+				cout<<"Hero : "<<endl;
+				inactivePlayer.getHero().print();
+				cout<<"Field : "<<endl;
+				for(int i = 0 ; i < inactivePlayer.getMonsterInField() ; i++)
+					inactivePlayer.getField()[i]->print();
+				break;
+			case 9 : endTurn = true; break;
+			default : cout<<"Incorrect command input!"<<endl; 
 
 		}
 	}
