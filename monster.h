@@ -20,7 +20,7 @@ public:
 		return health;
 	}
 
-	void setAttack (int p) {power = a; }
+	void setAttack (int p) {power = p; }
 	void setHealth (int h) {health = h;}
 	void attack(Monster&);
 	void attack(Hero&);

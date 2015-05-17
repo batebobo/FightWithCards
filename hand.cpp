@@ -1,10 +1,12 @@
-#include "stdafx.h"
+
 #include <iostream>
 #include "hand.h"
 #include "Card.h"
 #include "deck.h"
 
 using namespace std;
+
+Hand::Hand():number(0){}
 
 Hand::Hand(Card& a , Card& b , Card& c) : number(3)
 {
@@ -19,7 +21,7 @@ void Hand::drawCard(Deck& deck)
 		cout<<"Maximum card capacity in hand reached! Cannot draw more cards!"<<endl;
 	else
 	{
-		hand[number++] = &deck.drawCard();
+		hand[number++] = deck.drawCard();
 	}
 }
 
@@ -39,5 +41,5 @@ Card& Hand::useCard(Card& card)
 			number--;
 			return card;
 		}
-	return Card();
+	return *new Card();
 }

@@ -1,7 +1,6 @@
 // Card.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include <iostream>
 #include "Card.h"
 using namespace std;
@@ -41,7 +40,7 @@ Card::Card(const Card &other) {
 
 Card Card::operator=(const Card &other)
 {
-	if (this!=&other) 
+	if (this!=&other)
 		copy(other);
 	return *this;
 }

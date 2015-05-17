@@ -5,16 +5,16 @@
 class Deck
 {
    private:
-       void copy(const Deck&);
+       void copy(Deck);
        void destroy();
        char* name;
-	   Card deck[30];
+	   Card* deck[30];
 	   int position;
 	   bool empty;
 
    public:
        //THE BIG 4
-        Deck(char* = "" , Card* = NULL);
+        Deck(char* = "" , Card** = NULL);
         ~Deck();
         Deck& operator=(const Deck&);
         Deck(const Deck&);
@@ -22,9 +22,9 @@ class Deck
         void shuffle();
         void printDeck();
         void setName(char*);
-        void setCards(const Card*);
+        void setCards(Card**);
         bool isEmpty()const {return empty ;}
-		Card& drawCard();
+		Card* drawCard();
 
 };
 #endif // DECK

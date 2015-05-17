@@ -1,29 +1,29 @@
 #include "SpellCard.h"
 
-void SpellCard::setProperties(effects _effect, int _effectValue) { 
+void SpellCard::setProperties(effects _effect, int _effectValue) {
 
 
-	if(_effect < dealDamageToCreature || _effect > healYourself) { 
+	if(_effect < dealDamageToCreature || _effect > healYourself) {
 		effect = dealDamageToCreature;
 	}
-	else { 
+	else {
 		effect = _effect;
 	}
-	
-	switch(effect) { 
-	case effects::dealDamageToCreature: 
+
+	switch(effect) {
+	case dealDamageToCreature:
 			readOnlyEffect =  new char[18];
 			strcpy(readOnlyEffect , "Just deals damage");
 			break;
-	case effects::damageHero: 
+	case damageHero:
 			readOnlyEffect = new char[15];
 			strcpy(readOnlyEffect , "Damages hero");
 			break;
-	case effects::buffCreature: 
+	case buffCreature:
 			readOnlyEffect = new char[17];
 			strcpy(readOnlyEffect , "Buffs creature");
 			break;
-	case effects::healYourself: 
+	case healYourself:
 			readOnlyEffect = new char[26];
 			strcpy(readOnlyEffect , "Restores HP to the player");
 			break;
@@ -39,27 +39,27 @@ void SpellCard::freezeMonster(Monster& creature) {
 	//creature.changeStateTo("frozen");
 }
 
-void SpellCard::dealDamageToMonster(Monster& creature) { 
-	if(effect == 0 || effect == 2) { 
+void SpellCard::dealDamageToMonster(Monster& creature) {
+	if(effect == 0 || effect == 2) {
 		//creature.hp -= damage
 	}
-	if(effect == 2) { 
+	if(effect == 2) {
 		freezeMonster(creature);
 	}
-	if(effect == 4) { 
+	if(effect == 4) {
 		//creature.hp = 0;
 	}
 }
 
-void SpellCard::dealDamageToHero(Hero& hero) { 
+void SpellCard::dealDamageToHero(Hero& hero) {
 	//player.hp -= damage;
 }
 
-void SpellCard::healHero(Hero& hero) { 
+void SpellCard::healHero(Hero& hero) {
 	//player.hp += damage;
 }
 
-SpellCard::SpellCard(const SpellCard& spellCard) : readOnlyEffect(NULL) { 
+SpellCard::SpellCard(const SpellCard& spellCard) :Card(spellCard), readOnlyEffect(NULL) {
 	int len = strlen(spellCard.getReadonlyEffectInformation());
 
 	readOnlyEffect = new char[len + 1];

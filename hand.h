@@ -12,6 +12,7 @@ private:
 
 public:
 	Hand(Card& , Card& , Card&);
+	Hand();
 	void drawCard(Deck&);
 	void printHand();
 	Card& useCard(Card&);
