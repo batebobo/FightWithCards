@@ -3,81 +3,65 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include <string>
 #include "Hero.h"
 
 using namespace std;
 
-Hero::Hero() 
+Hero::Hero(char* _name , int _health ) : health(_health) , name(NULL)
 {
-	this->health=40;
-	this->name="";
-	this->power="";
+	setName(_name);
 }
 
-Hero::Hero(int health, string name, string power)
+Hero::Hero(const Hero& other) : health(other.health) , name(NULL)
 {
-	if (health==0) health=40;
-	else this->health=health;
-	this->name=name;
-	this->power=power;
-}
-
-Hero::Hero(const Hero& other)
-{
-	this->health=other.health;
-	this->name=other.name;
-	this->power=other.power;
+	setName(other.name);
 }
 
 Hero& Hero::operator=(const Hero& other)
 {
 	if(this != &other)
 	{
-		this->health=other.health;
-		this->name=other.name;
-		this->power=other.power;
+		health = other.getHealth();
+		setName(other.getName());
 	}
 	return *this;
 }
 
 Hero::~Hero()
 {
+	if(name != NULL)
+		delete[] name;
 }
-
-int Hero::getHealth() const { return health;}
-string Hero::getName() const {return name;}
-string Hero::getPower() const { return power;}
 
 
 void Hero::print() const
 {
-	cout<<"Health: "<<health <<endl;
-	cout<<"Name: "<<name <<endl;
-	cout<<"Power: "<<power <<endl;
+	cout<<"Health : "<<health <<endl;
+	cout<<"Name : "<<name <<endl;
 }
 
-void Hero::set()
+void Hero::setName(char* _name)
 {
-	cin>>health>>name>>power;
-	this->health=health;
-	this->name=name;
-	this->power=power;
+	if(name != NULL)
+		delete[] name;
+	name = new char[strlen(_name) + 1];
+	strcpy(name , _name);
 }
 
-int main(int argc, _TCHAR* argv[])
+void Hero::usePower(Hero& other)
 {
-	Hero Mage(40, "Mage", "Fireblast");
-	Mage.print();
-	Hero Hunter(40, "Hunter", "Steady Shot");
-	Hunter.print();
-	Hero Warrior(40, "Warrior", "Shield Up");
-	Warrior=Hunter;
-	Warrior.print();
-	Hunter.set();
-	Hunter.print();
-	Warrior.print();
-	return 0;
+	if(strcmp(name , "Priest") == 0 || strcmp(name , "priest") == 0)
+		heal();
+	else if(strcmp(name , "Hunter") == 0 || strcmp(name , "hunter") == 0)
+		attack(other);
 }
 
+void Hero::attack(Hero& other)
+{
+	other.health -= 2;
+}
 
+void Hero::heal()
+{
+	health += 2;
+}
