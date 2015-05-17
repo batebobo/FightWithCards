@@ -1,34 +1,38 @@
 #pragma once
 
-class Monster;
-class Player;
 #include "Card.h"
+#include "Hero.h"
+#include "monster.h"
+
 class SpellCard : public Card
 {
-private:
-	int effect;
-	int damage;
-	char* readOnlyEffect;
 
 public:
-	SpellCard(char* = "", int = 0, int = 0, int = 0, int = 0);
+	enum effects {dealDamageToCreature, dealDamageToHero, buffCreature, healYourself};
+
+
+	SpellCard(effects, char* = "", int = 0, int = 0,  int = 0);
 	SpellCard(const SpellCard&);
 	SpellCard& operator=(SpellCard const&);
 
-	int getEffectNumber() const { return effect; }
-	int getDamageInformation() const { return damage; }
+	SpellCard::effects getEffect() const { return effect; }
+	int getEffectValue() const { return effectValue; }
 	char* getReadonlyEffectInformation() const { return readOnlyEffect; }
 
-	void setProperties(int, int);
+	void setProperties(effects, int);
 	
 	void freezeMonster(Monster&);
 	void dealDamageToMonster(Monster&);
-	void dealDamageToPlayer(Player&);
+	void dealDamageToHero(Hero&);
 
-	void healPlayer(Player&);
+	void healHero(Hero&);
 
 	void print();
 
 	~SpellCard();
+private:
+	SpellCard::effects effect;
+	int effectValue;
+	char* readOnlyEffect;
 };
 
