@@ -19,6 +19,7 @@ public:
 
 	void print() const;
 	void setName(char*);
+	void setHealth(int);
 
 	void attack(Hero&);
 	void heal();

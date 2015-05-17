@@ -15,7 +15,7 @@ void SpellCard::setProperties(effects _effect, int _effectValue) {
 			readOnlyEffect =  new char[18];
 			strcpy(readOnlyEffect , "Just deals damage");
 			break;
-	case effects::dealDamageToHero: 
+	case effects::damageHero: 
 			readOnlyEffect = new char[15];
 			strcpy(readOnlyEffect , "Damages hero");
 			break;

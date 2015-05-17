@@ -58,10 +58,15 @@ void Hero::usePower(Hero& other)
 
 void Hero::attack(Hero& other)
 {
-	other.health -= 2;
+	other.setHealth(other.getHealth() - 2);
 }
 
 void Hero::heal()
 {
 	health += 2;
+}
+
+void Hero::setHealth(int hp)
+{
+	health = hp;
 }

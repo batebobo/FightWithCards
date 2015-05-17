@@ -8,7 +8,7 @@ class SpellCard : public Card
 {
 
 public:
-	enum effects {dealDamageToCreature, dealDamageToHero, buffCreature, healYourself};
+	enum effects {dealDamageToCreature, damageHero, buffCreature, healYourself};
 
 
 	SpellCard(effects, char* = "", int = 0, int = 0,  int = 0);
