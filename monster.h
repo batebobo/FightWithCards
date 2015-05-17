@@ -26,6 +26,7 @@ public:
 	void attack(Monster&);
 	void attack(Hero&);
 	void print ();
+	bool isMonster(){return true;}
 };
 
 #endif /* MONSTER_H_ */

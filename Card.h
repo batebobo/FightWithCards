@@ -27,6 +27,7 @@ public:
 	virtual void attack(Hero&){}
 	virtual void useSpellCard(Monster&){}
 	virtual void useSpellCard(Hero&){}
+	virtual bool isMonster(){}
 };
 
 #endif CARD_H_

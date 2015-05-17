@@ -33,11 +33,6 @@ void Deck::destroy(){
     if(name != NULL){
         delete[] name;
     }
-    for(int i = 0; i < 30 ; i++){
-        if(deck[i] != NULL){
-           delete deck[i];
-        }
-    }
 }
 
 

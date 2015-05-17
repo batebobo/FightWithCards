@@ -20,6 +20,8 @@ public:
 	char* getReadonlyEffectInformation() const { return readOnlyEffect; }
 
 	void setProperties(Effects, int);
+
+	bool isMonster(){return false;}
 	
 	void dealDamageToMonster(Monster&);
 	void dealDamageToHero(Hero&);
