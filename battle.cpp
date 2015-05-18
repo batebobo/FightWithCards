@@ -20,7 +20,7 @@ void Battle::beginBattle()
 {
 	int firstPlayer;
 	srand(time(NULL));
-	firstPlayer = rand()%2;
+	firstPlayer = rand()%2;//!!!!!!!!!!!
 
 	while(P1.getHero().getHealth() > 0 && P2.getHero().getHealth() > 0) 
 	{
@@ -42,7 +42,7 @@ void Battle::beginBattle()
 	}
 }
 
-void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
+void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаване на enum вместо цифров код
 {
 	//If Player.hand is empty, automatically end turn;
 	//Optional - bool isMonster to check the card type

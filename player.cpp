@@ -8,9 +8,9 @@ Player::Player(Mystring _name,Deck &myDeck,Hero& myHero , int _mana):name(_name)
 		drawCard();
 }
 
-Player::Player(Player const& other):name(other.name),hero(other.hero),fatigue(other.fatigue),monstersInField(other.monstersInField) , mana(other.mana) , hand(other.hand)
-{
-	// прави проблем с copy конструктор на тесте
+Player::Player(Player const& other):name(other.name),hero(other.hero),fatigue(other.fatigue),monstersInField(other.monstersInField) 
+													, mana(other.mana) , hand(other.hand) , deck(other.deck)
+{	
 }
 
 void Player::print(){

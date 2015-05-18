@@ -5,7 +5,7 @@
 class Deck
 {
    private:
-       void copy(Deck&);
+       void copy(const Deck&);
        void destroy();
        char* name;
 	   Card* deck[30];
@@ -16,14 +16,17 @@ class Deck
        //THE BIG 4
         Deck(char* = "" , Card** = NULL);
         ~Deck();
-        Deck& operator=(Deck&);
-        Deck(Deck&);
+        Deck& operator=(const Deck&);
+        Deck(const Deck&);
 
         void shuffle();
         void printDeck();
         void setName(char*);
         void setCards(Card**);
         bool isEmpty()const {return empty ;}
+		Card** getCards() const{
+			return (Card**)deck;
+		}
 		Card* drawCard();
 
 };

@@ -2,7 +2,7 @@
 #define Hero_H_
 using namespace std;
 
-
+// разбиване на класове и добавяне на виртуални финкции
 class Hero
 {
 private:

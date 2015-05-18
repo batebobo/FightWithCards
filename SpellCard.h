@@ -6,7 +6,7 @@
 
 class SpellCard : public Card
 {
-
+	//разбиване на класове
 public:
 	enum Effects {dealDamageToCreature, damageHero, buffCreature, healYourself};
 
