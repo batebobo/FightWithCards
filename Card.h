@@ -18,7 +18,9 @@ public:
 	Card(char*, int, int);
 	Card(const Card&);
 	Card operator=(const Card&);
+	
 	int getNumber() const;
+	int getManacost() const{ return manacost;}
 
 	virtual void print(){}
 	void printCard();

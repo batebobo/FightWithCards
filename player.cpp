@@ -25,7 +25,19 @@ void Player::print(){
 }
 
 void Player::useCard(int number){
-	field[monstersInField++] = hand.useCard(number);
+	Card* toUse = hand.useCard(number);
+	if(toUse->isMonster())
+	{
+		if(toUse->getManacost() <= mana)
+		{
+			field[monstersInField++] = toUse;
+			mana -= toUse->getManacost();
+		}
+		else
+			cout<<"Not enough mana to summon that monster!"<<endl;
+	}
+	else
+		cout<<"Selected card is not a monster!"<<endl;
 }
 
 void Player::removeCardFromField(int number)
@@ -42,7 +54,7 @@ void Player::removeCardFromField(int number)
 
 void Player::setMana(int _mana)
 {
-	mana = _mana;
+	mana += _mana;
 }
 
 void Player::drawCard()

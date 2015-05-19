@@ -7,7 +7,7 @@ using namespace std;
 
 
 Battle::Battle(Player& one , Player& two , int _turn)
-				: turn(0) , P1(one) , P2(two)
+				: turn(0) , P1(&one) , P2(&two)
 {}
 
 Battle::Battle(Battle const& b) : P1(b.P1) , P2(b.P2)
@@ -20,25 +20,24 @@ void Battle::beginBattle()
 {
 	int firstPlayer;
 	srand(time(NULL));
-	firstPlayer = rand()%2;//!!!!!!!!!!!
-
-	while(P1.getHero().getHealth() > 0 && P2.getHero().getHealth() > 0) 
+	firstPlayer = rand()%2;
+	if(firstPlayer == 1)
 	{
-		if(firstPlayer == 0)
-		{
-			cout<<"Player "<<P1.getName()<<" turn."<<endl;
-			play(P1, P2);
-			cout<<"Player "<<P2.getName()<<" turn."<<endl;
-			play(P2, P1);
-		}
-		else
-		{
-			cout<<"Player "<<P2.getName()<<" turn."<<endl;
-			play(P2, P1);
-			cout<<"Player "<<P1.getName()<<" turn."<<endl;
-			play(P1, P2);
-		}
+		Player* temp = P2;
+		P2 = P1;
+		P1 = temp;
+	}
+
+	while(P1->getHero().getHealth() > 0 && P2->getHero().getHealth() > 0) 
+	{
+		
+		cout<<"Player "<<P1->getName()<<" turn."<<endl;
+		play(*P1, *P2);
+		cout<<"Player "<<P2->getName()<<" turn."<<endl;
+		play(*P2, *P1);
 		turn++;
+		P1->setMana(1);
+		P2->setMana(1);
 	}
 }
 
