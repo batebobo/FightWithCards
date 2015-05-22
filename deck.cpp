@@ -13,8 +13,7 @@ Deck::Deck(char* _name ,Card** _cards):name(NULL), position(0), empty(false){
 }
 
 Deck::Deck(const Deck& other):name(NULL){
-    copy(other);//нещо май не работи както трябва
-    std::cout<<"Deck copied! \n";
+    copy(other);
 }
 
 Deck& Deck::operator=(const Deck& other){
@@ -40,6 +39,7 @@ void Deck::copy(const Deck& other){
     setName(other.name);
 	setCards(other.getCards());
 	position = other.position;
+	empty = other.empty;
 }
 
 

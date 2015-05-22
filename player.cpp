@@ -10,7 +10,19 @@ Player::Player(Mystring _name,Deck &myDeck,Hero& myHero , int _mana):name(_name)
 
 Player::Player(Player const& other):name(other.name),hero(other.hero),fatigue(other.fatigue),monstersInField(other.monstersInField) 
 													, mana(other.mana) , hand(other.hand) , deck(other.deck)
-{	
+{}
+
+Player& Player::operator=(Player const& other)
+{
+	if(this != &other)
+	{
+		name = other.name;
+		deck = other.deck;
+		hero = other.hero;
+		hand = other.hand;
+		mana = other. mana;
+	}
+	return *this;
 }
 
 void Player::print(){
@@ -25,12 +37,15 @@ void Player::print(){
 }
 
 void Player::useCard(int number){
-	Card* toUse = hand.useCard(number);
+	Hand newHand = hand;
+	Card* toUse = newHand.useCard(number);
 	if(toUse->isMonster())
 	{
 		if(toUse->getManacost() <= mana)
 		{
-			field[monstersInField++] = toUse;
+			field[monstersInField++] = hand.useCard(number);
+			field[monstersInField - 1]->setNumber(monstersInField - 1);
+			field[monstersInField - 1]->setHasAttacked(true);
 			mana -= toUse->getManacost();
 		}
 		else
@@ -40,13 +55,35 @@ void Player::useCard(int number){
 		cout<<"Selected card is not a monster!"<<endl;
 }
 
+Card* Player::useSpellCard(int number)
+{
+	Hand newHand = hand;
+	Card* toUse = newHand.useCard(number);
+	if(!(toUse->isMonster()))
+	{
+		if(toUse->getManacost() <= mana)
+		{
+			mana -= toUse->getManacost();
+			return hand.useCard(number);
+		}
+		else
+			cout<<"Not enough mane to use that spell card!"<<endl;
+	}
+	else
+		cout<<"Selected card is not a spell card!"<<endl;
+	return new Card();
+}
+
 void Player::removeCardFromField(int number)
 {
 	for(int i = 0 ; i < monstersInField ; i++)
 		if(field[i]->getNumber() == number)
 		{
 			for(int k = i ; k < monstersInField - 1 ; k++)
+			{
 				field[i] = field[i+1];
+				field[i]->setNumber(i);
+			}
 			monstersInField--;
 			break;
 		}
@@ -60,4 +97,26 @@ void Player::setMana(int _mana)
 void Player::drawCard()
 {
 	getHand().drawCard(getDeck());
+}
+
+void Player::printField() 
+{
+	for(int i = 0 ; i < monstersInField ; i++)
+		field[i]->print();
+	cout<<endl;
+}
+
+Monster& Player::getMonster(int number)
+{
+	for(int i = 0 ; i < monstersInField ; i++)
+		if(field[i]->getNumber() == number)
+			return (Monster&)field[i];
+	cout<<"Incorrect number input!"<<endl;
+	return Monster();
+}
+
+void Player::setMonsterHasAttacked(bool attacked)
+{
+	for(int i = 0 ; i < monstersInField ; i++)
+		field[i]->setHasAttacked(attacked);
 }

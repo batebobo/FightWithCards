@@ -19,19 +19,19 @@ Card::Card() {
 	number=1;
 }
 
-Card::Card(Mystring name, int number, int manacost)
+Card::Card(Mystring _name, int _number, int _manacost)
 {
-	name=name;
-	number=number;
-	manacost=manacost;
+	name = _name;
+	number = _number;
+	manacost = _manacost;
 }
 
-Card::Card(char* name, int number, int manacost)
+Card::Card(char* _name, int _number, int _manacost)
 {
-	Mystring newname(name);
-	this->name=newname;
-	this->number=number;
-	this->manacost=manacost;
+	Mystring newname(_name);
+	name = newname;
+	number = _number;
+	manacost = _manacost;
 }
 
 Card::Card(const Card &other) {
@@ -57,3 +57,7 @@ void Card::printCard()
 	cout<<"Manacost: "<<manacost<<endl;
 }
 
+void Card::setNumber(int newNumber)
+{
+	number = newNumber;
+}

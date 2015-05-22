@@ -55,6 +55,7 @@ void Hero::usePower(Hero& other)
 		heal();
 	else if(strcmp(name , "Hunter") == 0 || strcmp(name , "hunter") == 0)
 		attack(other);
+	setHasAttacked(true);
 }
 
 void Hero::attack(Hero& other)
@@ -70,4 +71,9 @@ void Hero::heal()
 void Hero::setHealth(int hp)
 {
 	health = hp;
+}
+
+void Hero::setHasAttacked(bool attacked)
+{
+	has_attacked = attacked;
 }

@@ -21,15 +21,21 @@ public:
 	
 	int getNumber() const;
 	int getManacost() const{ return manacost;}
+	Mystring getName() const{ return name;}
+
+	void setNumber(int); // changes card number
 
 	virtual void print(){}
 	void printCard();
 
-	virtual void attack(Monster&){}
+	virtual void attack(Monster*){}
 	virtual void attack(Hero&){}
 	virtual void useSpellCard(Monster&){}
 	virtual void useSpellCard(Hero&){}
 	virtual bool isMonster(){return 0;}
+	virtual int getHealth() const{ return 10;}
+	virtual void setHasAttacked(bool){}
+	virtual bool hasAttacked() const{return 1;} 
 };
 
 #endif CARD_H_

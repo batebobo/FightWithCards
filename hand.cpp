@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include "hand.h"
 #include "Card.h"

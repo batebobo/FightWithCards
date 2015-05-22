@@ -23,7 +23,8 @@ public:
 
 	void setAttack (int p) {power = p; }
 	void setHealth (int h) {health = h;}
-	void attack(Monster&);
+	void setHasAttacked(bool);
+	void attack(Monster*);
 	void attack(Hero&);
 	void print ();
 

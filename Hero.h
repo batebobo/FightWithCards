@@ -11,7 +11,7 @@ private:
 	int skill_manacost;
 	bool has_attacked;
 public:
-	Hero(char* = "Priest" , int = 30 , int = 2 , bool = false);
+	Hero(char* = "Priest" , int = 5 , int = 2 , bool = false);
 	Hero (Hero const&);
 	Hero& operator=(Hero const&);
 	~Hero();
@@ -24,6 +24,7 @@ public:
 	void print() const;
 	void setName(char*);
 	void setHealth(int);
+	void setHasAttacked(bool);
 
 	void attack(Hero&);
 	void heal();

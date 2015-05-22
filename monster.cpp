@@ -19,13 +19,20 @@ void Monster::print ()
 	cout<<"Health: "<<getHealth() <<endl;
 }
 
-void Monster::attack(Monster& m)
+void Monster::attack(Monster* m)
 {
-	m.setHealth(m.getHealth() - getAttack());
-	setHealth(getHealth() - m.getAttack());
+	m->setHealth(m->getHealth() - getAttack());
+	setHealth(getHealth() - m->getAttack());
+	setHasAttacked(true);
 }
 
 void Monster::attack(Hero& h)
 {
 	h.setHealth(h.getHealth() - getAttack());
+	setHasAttacked(true);
+}
+
+void Monster::setHasAttacked(bool attacked)
+{
+	has_attacked = attacked;
 }
