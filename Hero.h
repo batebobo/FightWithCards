@@ -2,7 +2,7 @@
 #define Hero_H_
 using namespace std;
 
-// разбиване на класове и добавяне на виртуални финкции
+// Г°Г Г§ГЎГЁГўГ Г­ГҐ Г­Г  ГЄГ«Г Г±Г®ГўГҐ ГЁ Г¤Г®ГЎГ ГўГїГ­ГҐ Г­Г  ГўГЁГ°ГІГіГ Г«Г­ГЁ ГґГЁГ­ГЄГ¶ГЁГЁ
 class Hero
 {
 private:
@@ -11,7 +11,7 @@ private:
 	int skill_manacost;
 	bool has_attacked;
 public:
-	Hero(char* = "Priest" , int = 5 , int = 2 , bool = false);
+	Hero(char* = "Priest" , int = 30 , int = 2 , bool = false);
 	Hero (Hero const&);
 	Hero& operator=(Hero const&);
 	~Hero();
