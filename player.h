@@ -15,14 +15,14 @@ public:
 	Player& operator=(Player const&);
     void print();
     void useCard(int);
-	void removeCardFromField(int); // премахва карта от полето (използва се от бикта , когато карта бъде унищожена)
+	void removeCardFromField(int); // ГЇГ°ГҐГ¬Г ГµГўГ  ГЄГ Г°ГІГ  Г®ГІ ГЇГ®Г«ГҐГІГ® (ГЁГ§ГЇГ®Г«Г§ГўГ  Г±ГҐ Г®ГІ ГЎГЁГЄГІГ  , ГЄГ®ГЈГ ГІГ® ГЄГ Г°ГІГ  ГЎГєГ¤ГҐ ГіГ­ГЁГ№Г®Г¦ГҐГ­Г )
 	void printField();
 
 	bool fieldIsEmpty() const{ return monstersInField == 0;}
 
-	void setMana(int); // добавяне или премахване на мана
+	void setMana(int); // Г¤Г®ГЎГ ГўГїГ­ГҐ ГЁГ«ГЁ ГЇГ°ГҐГ¬Г ГµГўГ Г­ГҐ Г­Г  Г¬Г Г­Г  // increase
 	void drawCard();
-	void setMonsterHasAttacked(bool); // променя дали чудовището е атакувало или не
+	void setMonsterHasAttacked(bool); // ГЇГ°Г®Г¬ГҐГ­Гї Г¤Г Г«ГЁ Г·ГіГ¤Г®ГўГЁГ№ГҐГІГ® ГҐ Г ГІГ ГЄГіГўГ Г«Г® ГЁГ«ГЁ Г­ГҐ
 
 	Hand& getHand(){return hand;}
 	Deck& getDeck(){return deck;}
