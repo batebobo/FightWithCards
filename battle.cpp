@@ -56,8 +56,8 @@ void Battle::beginBattle()
 		else
 			break;
 		turn++;
-		P1->setMana(1);
-		P2->setMana(1);
+		P1->increaseManaCrystals();
+		P2->increaseManaCrystals();
 		P1->drawCard();
 		P2->drawCard();
 	}
@@ -190,7 +190,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero().getSkillManacost())
 					{
 						currentTurnPlayer.getHero().usePower(inactivePlayer.getHero());
-						currentTurnPlayer.setMana(-currentTurnPlayer.getHero().getSkillManacost());
+						currentTurnPlayer.changeMana(-currentTurnPlayer.getHero().getSkillManacost());
 						if(inactivePlayer.getHero().getHealth() <= 0)
 						{
 							cout<<inactivePlayer.getHero().getName()<<" has died!"<<endl;

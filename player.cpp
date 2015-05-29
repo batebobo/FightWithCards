@@ -2,7 +2,8 @@
 #include "player.h"
 using namespace std;
 
-Player::Player(Mystring _name,Deck &myDeck,Hero& myHero , int _mana):name(_name),deck(myDeck),hero(myHero),fatigue(0),monstersInField(0) , mana(_mana)
+Player::Player(Mystring _name,Deck &myDeck,Hero& myHero , int _mana_crystals):name(_name),deck(myDeck),hero(myHero)
+						,fatigue(0),monstersInField(0) , mana_crystals(_mana_crystals) , mana(_mana_crystals)
 {
 	for(int i = 0 ; i < 3 ; i++)
 		drawCard();
@@ -67,7 +68,7 @@ Card* Player::useSpellCard(int number)
 			return hand.useCard(number);
 		}
 		else
-			cout<<"Not enough mane to use that spell card!"<<endl;
+			cout<<"Not enough mana to use that spell card!"<<endl;
 	}
 	else
 		cout<<"Selected card is not a spell card!"<<endl;
@@ -89,9 +90,11 @@ void Player::removeCardFromField(int number)
 		}
 }
 
-void Player::setMana(int _mana)
+void Player::increaseManaCrystals()
 {
-	mana += _mana;
+	if(mana_crystals < 10)
+		mana_crystals++;
+	mana = mana_crystals;
 }
 
 void Player::drawCard()
@@ -119,4 +122,9 @@ void Player::setMonsterHasAttacked(bool attacked)
 {
 	for(int i = 0 ; i < monstersInField ; i++)
 		field[i]->setHasAttacked(attacked);
+}
+
+void Player::changeMana(int value)
+{
+	mana += value;
 }

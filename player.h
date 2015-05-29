@@ -10,19 +10,20 @@
 class Player
 {
 public:
-    Player(Mystring,Deck&,Hero& , int = 5);
+    Player(Mystring,Deck&,Hero& , int = 1);
 	Player(Player const&);
 	Player& operator=(Player const&);
     void print();
     void useCard(int);
-	void removeCardFromField(int); // ïðåìàõâà êàðòà îò ïîëåòî (èçïîëçâà ñå îò áèêòà , êîãàòî êàðòà áúäå óíèùîæåíà)
+	void removeCardFromField(int); 
 	void printField();
 
 	bool fieldIsEmpty() const{ return monstersInField == 0;}
 
-	void setMana(int); // äîáàâÿíå èëè ïðåìàõâàíå íà ìàíà // increase
+	void increaseManaCrystals(); // increases mana_crystals with 1 and fills up mana to mana_crystals
+	void changeMana(int);
 	void drawCard();
-	void setMonsterHasAttacked(bool); // ïðîìåíÿ äàëè ÷óäîâèùåòî å àòàêóâàëî èëè íå
+	void setMonsterHasAttacked(bool);
 
 	Hand& getHand(){return hand;}
 	Deck& getDeck(){return deck;}
@@ -40,7 +41,7 @@ private:
     Hero hero;
     Card* field[7];
     int fatigue;
-    int mana;
+    int mana , mana_crystals;
     int monstersInField;
     Mystring name;
 };
