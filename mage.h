@@ -1,12 +1,12 @@
-#ifndef PRIEST_H
-#define PRIEST_H
+#ifndef MAGE_H
+#define MAGE_H
 
 #include "hero.h"
 
-class Priest : public Hero
+class Mage : public Hero
 {
 public:
-	Priest(char* = "Priest" , int = 30 , int = 2 , bool = false);
+	Mage(char* = "Mage" , int = 30 , int = 2 , bool = false);
 
 	void print() const;
 	void usePower(Hero* , Monster* , int);

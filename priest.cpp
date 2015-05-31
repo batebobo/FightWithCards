@@ -3,13 +3,13 @@
 
 using namespace std;
 
-Priest::Priest(char* _name , int hp , int skill , bool attacked) : Hero(_name , hp , skill , attacked)
+Priest::Priest(char* _name , int hp , int powerMana , bool attacked) : Hero(_name , hp , powerMana , attacked)
 {}
 
 void Priest::print() const
 {
 	printHero();
-	cout<<"Skill : heals 2 health to hero or monster"<<endl;
+	cout<<"Power : heals 2 health to selected hero or monster"<<endl;
 }
 
 void Priest::usePower(Hero* h, Monster* m , int choice)

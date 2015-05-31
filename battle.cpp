@@ -2,6 +2,7 @@
 #include <iostream>
 #include<ctime>
 #include<cstdlib>
+#include "monster.h"
 
 using namespace std;
 
@@ -187,45 +188,62 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				{
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
 					{
-						int choice;
-						cout<<"Press 0 to use hero power on a hero or 1 to use hero power on monster : ";
-						cin>>choice;
-						if(choice == 0)
+						if(currentTurnPlayer.getHero()->hasDifferentTargets())
 						{
-							int target;
-							cout<<"Press 1 to use power on your hero or 2 to use power on enemy hero : ";
-							cin>>target;
-							if(target == 1)
-								currentTurnPlayer.getHero()->usePower(currentTurnPlayer.getHero() , (Monster*)&Card() , choice);
-							else
-								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)&Card() , choice);
-							currentTurnPlayer.changeMana(-currentTurnPlayer.getHero()->getSkillManacost());
-							if(inactivePlayer.getHero()->getHealth() <= 0)
+							currentTurnPlayer.getHero()->print();
+							int choice;
+							cout<<"Press 0 to use hero power on a hero or 1 to use hero power on monster : ";
+							cin>>choice;
+							if(choice == 0)
 							{
-								cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
-								endTurn = true;
-							}
-						}
-						else
-						{
-							int targetField , target;
-							cout<<"Press 1 to use skill on your monster or 2 to use skill on enemy monster : ";
-							cin>>targetField;
-							if(targetField == 1)
-							{
-								currentTurnPlayer.printField();
-								cout<<"Enter number of the monster to use hero power on that monster! ";
+								int target;
+								cout<<"Press 1 to use power on your hero or 2 to use power on enemy hero : ";
 								cin>>target;
-								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)currentTurnPlayer.getField()[target] , choice);
+								cout<<endl;
+								if(target == 1)
+									currentTurnPlayer.getHero()->usePower(currentTurnPlayer.getHero() , (Monster*)&Card() , choice);
+								else
+									currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)&Card() , choice);
+								currentTurnPlayer.changeMana(-currentTurnPlayer.getHero()->getSkillManacost());
+								if(inactivePlayer.getHero()->getHealth() <= 0)
+								{
+									cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
+									endTurn = true;
+								}
 							}
 							else
 							{
-								inactivePlayer.printField();
-								cout<<"Enter number of the monster to use hero power on that monster! ";
-								cin>>target;
-								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)inactivePlayer.getField()[target] , choice);
+								int targetField , target;
+								cout<<"Press 1 to use skill on your monster or 2 to use skill on enemy monster : ";
+								cin>>targetField;
+								if(targetField == 1)
+								{
+									if(currentTurnPlayer.fieldIsEmpty())
+										cout<<"You don't have any monsters on the field!"<<endl;
+									else
+									{
+										currentTurnPlayer.printField();
+										cout<<"Enter number of the monster to use hero power on that monster! ";
+										cin>>target;
+										currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)currentTurnPlayer.getField()[target] , choice);
+									}
+								}
+								else
+								{
+									if(inactivePlayer.fieldIsEmpty())
+										cout<<"No monsters on enemy field!"<<endl;
+									else
+									{
+										inactivePlayer.printField();
+										cout<<"Enter number of the monster to use hero power on that monster! ";
+										cin>>target;
+										currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)inactivePlayer.getField()[target] , choice);
+									}
+								}
 							}
 						}
+						else // change might be needed here , maybe some more cases for warlock and paladin cuz they must have access to players..
+							currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , new Monster("Silver Hand Recruit" , 0 , 0 , 1 , 1 , true) , 0);
 					}
 					else
 					{

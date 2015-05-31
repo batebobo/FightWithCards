@@ -4,8 +4,8 @@
 
 using namespace std;
 
-Monster::Monster (char* _nameMonster, int _number, int _manaCost, int _attack, int _health , bool _hasAttacked):
-					Card(_nameMonster,_number,_manaCost)
+Monster::Monster (char* _nameMonster, int _number, int _manaCost,
+	int _attack, int _health , bool _hasAttacked):Card(_nameMonster,_number,_manaCost)
 {
 	power = _attack;
 	health = _health;

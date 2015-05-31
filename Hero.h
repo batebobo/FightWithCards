@@ -27,6 +27,7 @@ public:
 	void setHealth(int);
 	void setHasAttacked(bool);
 
+	virtual bool hasDifferentTargets() const{return false;}
 	virtual void usePower(Hero* , Monster* , int){} // gets hero , monster and 0 to use power on hero or 1 to use power on monster
 };
 
