@@ -41,15 +41,15 @@ void SpellCard::dealDamageToMonster(Monster& creature) {
 	}
 }
 
-void SpellCard::dealDamageToHero(Hero& hero) {
+void SpellCard::dealDamageToHero(Hero* hero) {
 	if(effect == Effects::damageHero) { 
-		hero.setHealth(hero.getHealth() - effectValue);
+		hero->setHealth(hero->getHealth() - effectValue);
 	}
 }
 
-void SpellCard::healHero(Hero& hero) {
+void SpellCard::healHero(Hero* hero) {
 	if(effect == Effects::healYourself) {
-		hero.setHealth(hero.getHealth() + effectValue);
+		hero->setHealth(hero->getHealth() + effectValue);
 	}
 }
 
@@ -66,7 +66,7 @@ void SpellCard::useSpellCard(Monster& monster) {
 	case buffCreature: buffMonster(monster); break;
 	}
 }
-void SpellCard::useSpellCard(Hero& hero) { 
+void SpellCard::useSpellCard(Hero* hero) { 
 	switch(effect) { 
 	case damageHero: dealDamageToHero(hero); break;
 	case healYourself: healHero(hero); break;

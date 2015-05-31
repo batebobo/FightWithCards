@@ -2,7 +2,7 @@
 #include "player.h"
 using namespace std;
 
-Player::Player(Mystring _name,Deck &myDeck,Hero& myHero , int _mana_crystals):name(_name),deck(myDeck),hero(myHero)
+Player::Player(Mystring _name,Deck &myDeck,Hero* myHero , int _mana_crystals):name(_name),deck(myDeck),hero(myHero)
 						,fatigue(0),monstersInField(0) , mana_crystals(_mana_crystals) , mana(_mana_crystals)
 {
 	for(int i = 0 ; i < 3 ; i++)

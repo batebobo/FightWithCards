@@ -24,10 +24,10 @@ public:
 	bool isMonster(){return false;}
 	
 	void dealDamageToMonster(Monster&);
-	void dealDamageToHero(Hero&);
+	void dealDamageToHero(Hero*);
 	void buffMonster(Monster&);
-	void healHero(Hero&);
-	void useSpellCard(Hero&);
+	void healHero(Hero*);
+	void useSpellCard(Hero*);
 	void useSpellCard(Monster&);
 	void print();
 

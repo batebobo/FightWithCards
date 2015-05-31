@@ -25,7 +25,7 @@ public:
 	void setHealth (int h) {health = h;}
 	void setHasAttacked(bool);
 	void attack(Monster*);
-	void attack(Hero&);
+	void attack(Hero*);
 	void print ();
 
 	bool hasAttacked() const{return has_attacked;}

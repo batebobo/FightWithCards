@@ -29,26 +29,26 @@ void Battle::beginBattle()
 	}
 	P1->getDeck().shuffle();
 	P2->getDeck().shuffle();
-	while(P1->getHero().getHealth() > 0 && P2->getHero().getHealth() > 0) 
+	while(P1->getHero()->getHealth() > 0 && P2->getHero()->getHealth() > 0) 
 	{
 		if(P1->getDeck().isEmpty())
 		{
-			cout<<P1->getHero().getName()<<" loses 1 health due to fatigue!"<<endl;
-			P1->getHero().setHealth(P1->getHero().getHealth() - 1);
+			cout<<P1->getHero()->getName()<<" loses 1 health due to fatigue!"<<endl;
+			P1->getHero()->setHealth(P1->getHero()->getHealth() - 1);
 		}
 		if(P2->getDeck().isEmpty())
 		{
-			cout<<P2->getHero().getName()<<" loses 1 health due to fatigue!"<<endl;
-			P2->getHero().setHealth(P2->getHero().getHealth() - 1);
+			cout<<P2->getHero()->getName()<<" loses 1 health due to fatigue!"<<endl;
+			P2->getHero()->setHealth(P2->getHero()->getHealth() - 1);
 		}
-		if(P2->getHero().getHealth() > 0)
+		if(P2->getHero()->getHealth() > 0)
 		{
 			cout<<"Player "<<P1->getName()<<" turn."<<endl;
 			play(*P1, *P2);
 		}
 		else
 			break;
-		if(P2->getHero().getHealth() > 0)
+		if(P2->getHero()->getHealth() > 0)
 		{
 			cout<<"Player "<<P2->getName()<<" turn."<<endl;
 			play(*P2, *P1);
@@ -61,16 +61,14 @@ void Battle::beginBattle()
 		P1->drawCard();
 		P2->drawCard();
 	}
-	if(P1->getHero().getHealth() <= 0)
+	if(P1->getHero()->getHealth() <= 0)
 		cout<<"Player "<<P2->getName()<<" has won the duel!"<<endl;
 	else
 		cout<<"Player "<<P1->getName()<<" has won the duel!"<<endl;
 }
 
-void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаване на enum вместо цифров код
+void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) 
 {
-	//If Player.hand is empty, automatically end turn;
-	//Optional - bool isMonster to check the card type
 	bool endTurn = false;
 	while(!endTurn)
 	{
@@ -87,7 +85,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 		cin >> k;
 		switch(k) 
 		{
-			case 0 : // et monster on field
+			case 0 : // set monster on field
 				currentTurnPlayer.getHand().printHand();
 				cout << "Enter the number of the monster you want to play!" << endl;
 				int index; cin >> index;
@@ -178,23 +176,55 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 				}
 				currentTurnPlayer.getField()[attackingIndex]->printCard();
 				currentTurnPlayer.getField()[attackingIndex]->attack(inactivePlayer.getHero()); 
-				if(inactivePlayer.getHero().getHealth() <= 0)
+				if(inactivePlayer.getHero()->getHealth() <= 0)
 				{
-					cout<<inactivePlayer.getHero().getName()<<" has died!"<<endl;
+					cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
 					endTurn = true;
 				}
 				break;
 			case 5 : // use hero skill
-				if(!(currentTurnPlayer.getHero().hasAttacked()))
+				if(!(currentTurnPlayer.getHero()->hasAttacked()))
 				{
-					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero().getSkillManacost())
+					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
 					{
-						currentTurnPlayer.getHero().usePower(inactivePlayer.getHero());
-						currentTurnPlayer.changeMana(-currentTurnPlayer.getHero().getSkillManacost());
-						if(inactivePlayer.getHero().getHealth() <= 0)
+						int choice;
+						cout<<"Press 0 to use hero power on a hero or 1 to use hero power on monster : ";
+						cin>>choice;
+						if(choice == 0)
 						{
-							cout<<inactivePlayer.getHero().getName()<<" has died!"<<endl;
-							endTurn = true;
+							int target;
+							cout<<"Press 1 to use power on your hero or 2 to use power on enemy hero : ";
+							cin>>target;
+							if(target == 1)
+								currentTurnPlayer.getHero()->usePower(currentTurnPlayer.getHero() , (Monster*)&Card() , choice);
+							else
+								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)&Card() , choice);
+							currentTurnPlayer.changeMana(-currentTurnPlayer.getHero()->getSkillManacost());
+							if(inactivePlayer.getHero()->getHealth() <= 0)
+							{
+								cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
+								endTurn = true;
+							}
+						}
+						else
+						{
+							int targetField , target;
+							cout<<"Press 1 to use skill on your monster or 2 to use skill on enemy monster : ";
+							cin>>targetField;
+							if(targetField == 1)
+							{
+								currentTurnPlayer.printField();
+								cout<<"Enter number of the monster to use hero power on that monster! ";
+								cin>>target;
+								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)currentTurnPlayer.getField()[target] , choice);
+							}
+							else
+							{
+								inactivePlayer.printField();
+								cout<<"Enter number of the monster to use hero power on that monster! ";
+								cin>>target;
+								currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)inactivePlayer.getField()[target] , choice);
+							}
 						}
 					}
 					else
@@ -210,7 +240,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 				cout<<"Hand : "<<endl;
 				currentTurnPlayer.getHand().printHand();
 				cout<<"Hero : "<<endl;
-				currentTurnPlayer.getHero().print();
+				currentTurnPlayer.getHero()->print();
 				cout<<"Field : "<<endl;
 				for(int i = 0 ; i < currentTurnPlayer.getMonsterInField() ; i++)
 					currentTurnPlayer.getField()[i]->print();
@@ -218,7 +248,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 			case 7 : // see enemy field and hero
 				cout<<"enemy mana : "<<inactivePlayer.getMana()<<endl;
 				cout<<"Hero : "<<endl;
-				inactivePlayer.getHero().print();
+				inactivePlayer.getHero()->print();
 				cout<<"Field : "<<endl;
 				for(int i = 0 ; i < inactivePlayer.getMonsterInField() ; i++)
 					inactivePlayer.getField()[i]->print();
@@ -226,7 +256,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) // създаван
 			case 9 : 
 				endTurn = true;
 				currentTurnPlayer.setMonsterHasAttacked(false);
-				currentTurnPlayer.getHero().setHasAttacked(false);
+				currentTurnPlayer.getHero()->setHasAttacked(false);
 				break;
 			default : cout<<"Incorrect command input!"<<endl; 
 

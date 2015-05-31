@@ -34,7 +34,7 @@ Hero::~Hero()
 }
 
 
-void Hero::print() const
+void Hero::printHero() const
 {
 	cout<<"Health : "<<getHealth()<<endl;
 	cout<<"Name : "<<getName()<<endl;
@@ -47,25 +47,6 @@ void Hero::setName(char* _name)
 		delete[] name;
 	name = new char[strlen(_name) + 1];
 	strcpy(name , _name);
-}
-
-void Hero::usePower(Hero& other)
-{
-	if(strcmp(name , "Priest") == 0 || strcmp(name , "priest") == 0)
-		heal();
-	else if(strcmp(name , "Hunter") == 0 || strcmp(name , "hunter") == 0)
-		attack(other);
-	setHasAttacked(true);
-}
-
-void Hero::attack(Hero& other)
-{
-	other.setHealth(other.getHealth() - 2);
-}
-
-void Hero::heal()
-{
-	health += 2;
 }
 
 void Hero::setHealth(int hp)

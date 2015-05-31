@@ -26,9 +26,9 @@ void Monster::attack(Monster* m)
 	setHasAttacked(true);
 }
 
-void Monster::attack(Hero& h)
+void Monster::attack(Hero* h)
 {
-	h.setHealth(h.getHealth() - getAttack());
+	h->setHealth(h->getHealth() - getAttack());
 	setHasAttacked(true);
 }
 

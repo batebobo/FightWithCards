@@ -29,9 +29,9 @@ public:
 	void printCard();
 
 	virtual void attack(Monster*){}
-	virtual void attack(Hero&){}
+	virtual void attack(Hero*){}
 	virtual void useSpellCard(Monster&){}
-	virtual void useSpellCard(Hero&){}
+	virtual void useSpellCard(Hero*){}
 	virtual bool isMonster(){return 0;}
 	virtual int getHealth() const{ return 10;}
 	virtual void setHasAttacked(bool){}

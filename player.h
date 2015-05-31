@@ -10,7 +10,7 @@
 class Player
 {
 public:
-    Player(Mystring,Deck&,Hero& , int = 1);
+    Player(Mystring,Deck&,Hero* , int = 1);
 	Player(Player const&);
 	Player& operator=(Player const&);
     void print();
@@ -27,7 +27,7 @@ public:
 
 	Hand& getHand(){return hand;}
 	Deck& getDeck(){return deck;}
-	Hero& getHero(){return hero;}
+	Hero* getHero(){return hero;}
 	Card** getField(){return field;}
 	int getMonsterInField() const{return monstersInField;}
 	int getMana() const{return mana;}
@@ -38,7 +38,7 @@ public:
 private:
     Hand hand;
     Deck deck;
-    Hero hero;
+    Hero* hero;
     Card* field[7];
     int fatigue;
     int mana , mana_crystals;

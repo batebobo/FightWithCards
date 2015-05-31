@@ -21,14 +21,13 @@ public:
 	int getSkillManacost() const{return skill_manacost;}
 	bool hasAttacked() const{ return has_attacked;}
 
-	void print() const;
+	virtual void print() const{}
+	void printHero() const;
 	void setName(char*);
 	void setHealth(int);
 	void setHasAttacked(bool);
 
-	void attack(Hero&);
-	void heal();
-	void usePower(Hero&);
+	virtual void usePower(Hero* , Monster* , int){} // gets hero , monster and 0 to use power on hero or 1 to use power on monster
 };
 
 #endif
