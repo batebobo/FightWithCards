@@ -3,6 +3,10 @@
 #include<ctime>
 #include<cstdlib>
 #include "monster.h"
+#include <string>
+#include <map>
+#include <cstring>
+#include <assert.h>
 
 using namespace std;
 
@@ -70,30 +74,42 @@ void Battle::beginBattle()
 
 void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) 
 {
-	bool endTurn = false;
-	while(!endTurn)
+	enum Commands{setMonster , endTurn , spellOnHero , spellOnMonster , attackMonster , attackHero , useHeroPower , seeOwnStats , seeEnemyStats};
+	map<string,Commands> m;
+	m["set monster"] = setMonster;
+	m["end turn"] = endTurn;
+	m["use spell on hero"] = spellOnHero;
+	m["use spell on monster"] = spellOnMonster;
+	m["attack monster"] = attackMonster;
+	m["attack hero"] = attackHero;
+	m["use hero power"] = useHeroPower;
+	m["show own stats"] = seeOwnStats;
+	m["show enemy stats"] = seeEnemyStats;
+	bool end = false;
+	while(!end)
 	{
-		int k;
-		cout<<"Press 9 to end your turn."<<endl;
-		cout<<"Press 0 to set monster on the battlefield."<<endl;
-		cout<<"Press 1 to use spell card on hero." << endl;
-		cout<<"Press 2 to use spell card on monster."<<endl;
-		cout<<"Press 3 to attack enemy monster."<<endl;
-		cout<<"Press 4 to attack enemy hero."<<endl;
-		cout<<"Press 5 to use hero skill."<<endl;
-		cout<<"Press 6 to see own mana , hand , hero and field."<<endl;
-		cout<<"Press 7 to see enemy mana , hero and field."<<endl;
-		cin >> k;
-		switch(k) 
+		string input;
+		cout<<"Type \"end turn\" to end your turn."<<endl;
+		cout<<"Type \"set monster\" to set monster on the battlefield."<<endl;
+		cout<<"Type \"use spell on hero\" to use spell card on hero." << endl;
+		cout<<"Type \"use spell on monster\" to use spell card on monster."<<endl;
+		cout<<"Type \"attack monster\" to attack enemy monster."<<endl;
+		cout<<"Type \"attack hero\" to attack enemy hero."<<endl;
+		cout<<"Type \"use hero power\" to use hero power."<<endl;
+		cout<<"Type \"show own stats\" to see own mana , hand , hero and field."<<endl;
+		cout<<"Type \"show enemy stats\" to see enemy mana , hero and field."<<endl;
+		getline(cin , input);
+		Commands command = m[input];
+		switch(command) 
 		{
-			case 0 : // set monster on field
+			case setMonster : // set monster on field
 				currentTurnPlayer.getHand().printHand();
 				cout << "Enter the number of the monster you want to play!" << endl;
 				int index; cin >> index;
-				currentTurnPlayer.useCard(index); //if monster, and if valid index
+				currentTurnPlayer.useCard(index); 
 
 			break;
-			case 1: // use spell card on hero
+			case spellOnHero : // use spell card on hero
 				currentTurnPlayer.getHand().printHand();
 				cout << "Enter the number of the spell you want to use!" << endl;
 				cin >> index;
@@ -105,14 +121,14 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				if(heroIndex == 2)
 					currentTurnPlayer.useSpellCard(index)->useSpellCard(inactivePlayer.getHero());
 			break;
-			case 2 : //use spell card on monster
+			case spellOnMonster : //use spell card on monster
 				currentTurnPlayer.getHand().printHand();
 				cout << "Enter the number of the spell you want to use!" << endl;
 				cin >> index;
 				int monsterIndex;
-				cout<<"Monsters on your field : "<<endl;
+				cout<<"\t\t==== Monsters on your field ===="<<endl;
 				currentTurnPlayer.printField();
-				cout<<"Monsters on enemy field : "<<endl;
+				cout<<"\t\t==== Monsters on enemy field ===="<<endl;
 				inactivePlayer.printField();
 				cout<<"Will you use the spell on enemy monster? y/n ";
 				char answer;
@@ -124,7 +140,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				else
 					currentTurnPlayer.useSpellCard(index)->useSpellCard((Monster&)currentTurnPlayer.getField()[monsterIndex]);
 			break;
-			case 3 : // attack enemy monster with your monster
+			case attackMonster : // attack enemy monster with your monster
 				if(currentTurnPlayer.fieldIsEmpty())
 				{
 					cout<<"You dont have monsters on the field with which to attack!"<<endl;
@@ -161,7 +177,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 					inactivePlayer.removeCardFromField(defendingIndex);
 				}
 			break;
-			case 4 : // attack enemy hero with your monster
+			case attackHero : // attack enemy hero with your monster
 				if(currentTurnPlayer.fieldIsEmpty())
 				{
 					cout<<"You dont have monsters on the field with which to attack!"<<endl;
@@ -180,10 +196,10 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				if(inactivePlayer.getHero()->getHealth() <= 0)
 				{
 					cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
-					endTurn = true;
+					end = true;
 				}
 				break;
-			case 5 : // use hero skill
+			case useHeroPower : // use hero skill
 				if(!(currentTurnPlayer.getHero()->hasAttacked()))
 				{
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
@@ -208,7 +224,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 								if(inactivePlayer.getHero()->getHealth() <= 0)
 								{
 									cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
-									endTurn = true;
+									end = true;
 								}
 							}
 							else
@@ -253,31 +269,31 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				else
 					cout<<"Hero has already used his power this turn!"<<endl;
 				break;
-			case 6 : // see own cards
+			case seeOwnStats : // see own cards
 				cout<<"your mana : "<<currentTurnPlayer.getMana()<<endl;
-				cout<<"Hand : "<<endl;
+				cout<<"\t\t==== Hand ===="<<endl;
 				currentTurnPlayer.getHand().printHand();
-				cout<<"Hero : "<<endl;
+				cout<<"\t\t==== Hero ===="<<endl;
 				currentTurnPlayer.getHero()->print();
-				cout<<"Field : "<<endl;
+				cout<<"\t\t==== Field ===="<<endl;
 				for(int i = 0 ; i < currentTurnPlayer.getMonsterInField() ; i++)
 					currentTurnPlayer.getField()[i]->print();
 				break;
-			case 7 : // see enemy field and hero
+			case seeEnemyStats : // see enemy field and hero
 				cout<<"enemy mana : "<<inactivePlayer.getMana()<<endl;
-				cout<<"Hero : "<<endl;
+				cout<<"\t\t==== Hero ===="<<endl;
 				inactivePlayer.getHero()->print();
-				cout<<"Field : "<<endl;
+				cout<<"\t\t==== Field ===="<<endl;
 				for(int i = 0 ; i < inactivePlayer.getMonsterInField() ; i++)
 					inactivePlayer.getField()[i]->print();
 				break;
-			case 9 : 
-				endTurn = true;
+			case endTurn : 
+				end = true;
 				currentTurnPlayer.setMonsterHasAttacked(false);
 				currentTurnPlayer.getHero()->setHasAttacked(false);
 				break;
-			default : cout<<"Incorrect command input!"<<endl; 
-
+			default : cout<<"Incorrect command input!"<<endl;
 		}
+		cin.ignore();
 	}
 }
