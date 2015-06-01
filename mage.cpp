@@ -12,11 +12,32 @@ void Mage::print() const
 	cout<<"Power : Deals 1 damage to selected hero or monster"<<endl;
 }
 
-void Mage::usePower(Hero* h, Monster* m, int choice)
+void Mage::usePower(Player* p)
 {
-	if(choice == 0)
-		h->setHealth(h->getHealth() - 1);
+	print();
+	cout<<endl;
+	cout<<"Use spell card on hero or monster? ";
+	enum Choice {MONSTER , HERO};
+	map<string,Choice> m;
+	m["monster"] = MONSTER;
+	m["hero"] = HERO;
+	string input;
+	cin>>input;
+	Choice choice = m[input];
+	if(choice == HERO)
+	{
+		p->getHero()->setHealth(p->getHero()->getHealth() - 1);
+		setHasAttacked(true);
+	}
+	else if(choice == MONSTER)
+	{
+		p->printField();
+		cout<<"Enter the index of the monster you want to use the hero power on : ";
+		int monsterIndex;
+		cin>>monsterIndex;
+		p->getField()[monsterIndex]->setHealth(p->getField()[monsterIndex]->getHealth() - 1);
+		setHasAttacked(true);
+	}
 	else
-		m->setHealth(m->getHealth() - 1);
-	setHasAttacked(true);
+		cout<<"Incorrect command input!"<<endl;
 }

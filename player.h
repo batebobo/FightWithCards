@@ -28,7 +28,7 @@ public:
 	Hand& getHand(){return hand;}
 	Deck& getDeck(){return deck;}
 	Hero* getHero(){return hero;}
-	Card** getField(){return field;}
+	Monster** getField(){return field;}
 	int getMonsterInField() const{return monstersInField;}
 	int getMana() const{return mana;}
 	Monster& getMonster(int);
@@ -39,7 +39,7 @@ private:
     Hand hand;
     Deck deck;
     Hero* hero;
-    Card* field[7];
+    Monster* field[7];
     int fatigue;
     int mana , mana_crystals;
     int monstersInField;

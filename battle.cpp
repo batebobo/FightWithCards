@@ -10,7 +10,9 @@
 
 using namespace std;
 
-
+// observer pattern , * factory pattern
+// 3 in 1
+// spell card change
 Battle::Battle(Player& one , Player& two , int _turn)
 				: turn(0) , P1(&one) , P2(&two)
 {}
@@ -74,7 +76,7 @@ void Battle::beginBattle()
 
 void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) 
 {
-	enum Commands{setMonster , endTurn , spellOnHero , spellOnMonster , attackMonster , attackHero , useHeroPower , seeOwnStats , seeEnemyStats};
+	enum Commands{def , setMonster , endTurn , spellOnHero , spellOnMonster , attackMonster , attackHero , useHeroPower , seeOwnStats , seeEnemyStats};//all caps
 	map<string,Commands> m;
 	m["set monster"] = setMonster;
 	m["end turn"] = endTurn;
@@ -102,6 +104,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 		Commands command = m[input];
 		switch(command) 
 		{
+			case def : cout<<"Incorrect command input!"<<endl; break;
 			case setMonster : // set monster on field
 				currentTurnPlayer.getHand().printHand();
 				cout << "Enter the number of the monster you want to play!" << endl;
@@ -204,62 +207,15 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				{
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
 					{
-						if(currentTurnPlayer.getHero()->hasDifferentTargets())
-						{
-							currentTurnPlayer.getHero()->print();
-							int choice;
-							cout<<"Press 0 to use hero power on a hero or 1 to use hero power on monster : ";
-							cin>>choice;
-							if(choice == 0)
-							{
-								int target;
-								cout<<"Press 1 to use power on your hero or 2 to use power on enemy hero : ";
-								cin>>target;
-								cout<<endl;
-								if(target == 1)
-									currentTurnPlayer.getHero()->usePower(currentTurnPlayer.getHero() , (Monster*)&Card() , choice);
-								else
-									currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)&Card() , choice);
-								currentTurnPlayer.changeMana(-currentTurnPlayer.getHero()->getSkillManacost());
-								if(inactivePlayer.getHero()->getHealth() <= 0)
-								{
-									cout<<inactivePlayer.getHero()->getName()<<" has died!"<<endl;
-									end = true;
-								}
-							}
-							else
-							{
-								int targetField , target;
-								cout<<"Press 1 to use skill on your monster or 2 to use skill on enemy monster : ";
-								cin>>targetField;
-								if(targetField == 1)
-								{
-									if(currentTurnPlayer.fieldIsEmpty())
-										cout<<"You don't have any monsters on the field!"<<endl;
-									else
-									{
-										currentTurnPlayer.printField();
-										cout<<"Enter number of the monster to use hero power on that monster! ";
-										cin>>target;
-										currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)currentTurnPlayer.getField()[target] , choice);
-									}
-								}
-								else
-								{
-									if(inactivePlayer.fieldIsEmpty())
-										cout<<"No monsters on enemy field!"<<endl;
-									else
-									{
-										inactivePlayer.printField();
-										cout<<"Enter number of the monster to use hero power on that monster! ";
-										cin>>target;
-										currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , (Monster*)inactivePlayer.getField()[target] , choice);
-									}
-								}
-							}
-						}
-						else // change might be needed here , maybe some more cases for warlock and paladin cuz they must have access to players..
-							currentTurnPlayer.getHero()->usePower(inactivePlayer.getHero() , new Monster("Silver Hand Recruit" , 0 , 0 , 1 , 1 , true) , 0);
+						cout<<"Do you want to use hero power on enemy target? y/n";
+						char answer;
+						cin>>answer;
+						if(answer == 'y')
+							currentTurnPlayer.getHero()->usePower(&inactivePlayer);
+						else if(answer == 'n')
+							currentTurnPlayer.getHero()->usePower(&currentTurnPlayer);
+						else
+							cout<<"Incorrect answer input!"<<endl;
 					}
 					else
 					{
@@ -291,8 +247,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				end = true;
 				currentTurnPlayer.setMonsterHasAttacked(false);
 				currentTurnPlayer.getHero()->setHasAttacked(false);
-				break;
-			default : cout<<"Incorrect command input!"<<endl;
+				break; 
 		}
 		cin.ignore();
 	}

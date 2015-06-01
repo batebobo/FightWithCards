@@ -44,7 +44,7 @@ void Player::useCard(int number){
 	{
 		if(toUse->getManacost() <= mana)
 		{
-			field[monstersInField++] = hand.useCard(number);
+			field[monstersInField++] = (Monster*)hand.useCard(number);
 			field[monstersInField - 1]->setNumber(monstersInField - 1);
 			field[monstersInField - 1]->setHasAttacked(true);
 			mana -= toUse->getManacost();
