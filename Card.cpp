@@ -61,3 +61,11 @@ void Card::setNumber(int newNumber)
 {
 	number = newNumber;
 }
+
+void Card::useCard(Player* current , Player* other)
+{
+	if(isMonster())
+		setMonsterOnField(current);
+	else
+		useSpellCard(current , other);
+}

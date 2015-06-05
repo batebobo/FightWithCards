@@ -5,14 +5,11 @@
 #include "monster.h"
 #include <string>
 #include <map>
-#include <cstring>
 #include <assert.h>
 
 using namespace std;
 
 // observer pattern , * factory pattern
-// 3 in 1
-// spell card change
 Battle::Battle(Player& one , Player& two , int _turn)
 				: turn(0) , P1(&one) , P2(&two)
 {}
@@ -76,25 +73,22 @@ void Battle::beginBattle()
 
 void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer) 
 {
-	enum Commands{def , setMonster , endTurn , spellOnHero , spellOnMonster , attackMonster , attackHero , useHeroPower , seeOwnStats , seeEnemyStats};//all caps
+	enum Commands{DEF , PLAY_CARD , END_TURN ,  ATTACK_MONSTER , ATTACK_HERO , USE_HERO_POWER , SEE_OWN_STATS , SEE_ENEMY_STATS};//all caps
 	map<string,Commands> m;
-	m["set monster"] = setMonster;
-	m["end turn"] = endTurn;
-	m["use spell on hero"] = spellOnHero;
-	m["use spell on monster"] = spellOnMonster;
-	m["attack monster"] = attackMonster;
-	m["attack hero"] = attackHero;
-	m["use hero power"] = useHeroPower;
-	m["show own stats"] = seeOwnStats;
-	m["show enemy stats"] = seeEnemyStats;
+	m["play card"] = PLAY_CARD;
+	m["end turn"] = END_TURN;
+	m["attack monster"] = ATTACK_MONSTER;
+	m["attack hero"] = ATTACK_HERO;
+	m["use hero power"] = USE_HERO_POWER;
+	m["show own stats"] = SEE_OWN_STATS;
+	m["show enemy stats"] = SEE_ENEMY_STATS;
 	bool end = false;
+	Card* playedCard = NULL;
 	while(!end)
 	{
 		string input;
 		cout<<"Type \"end turn\" to end your turn."<<endl;
-		cout<<"Type \"set monster\" to set monster on the battlefield."<<endl;
-		cout<<"Type \"use spell on hero\" to use spell card on hero." << endl;
-		cout<<"Type \"use spell on monster\" to use spell card on monster."<<endl;
+		cout<<"Type \"play card\" to play a card from your hand."<<endl;
 		cout<<"Type \"attack monster\" to attack enemy monster."<<endl;
 		cout<<"Type \"attack hero\" to attack enemy hero."<<endl;
 		cout<<"Type \"use hero power\" to use hero power."<<endl;
@@ -103,47 +97,22 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 		getline(cin , input);
 		Commands command = m[input];
 		switch(command) 
-		{
-			case def : cout<<"Incorrect command input!"<<endl; break;
-			case setMonster : // set monster on field
+		{ 
+			case DEF : cout<<"Incorrect command input!"<<endl; break;
+			case PLAY_CARD : // set monster on field
 				currentTurnPlayer.getHand().printHand();
-				cout << "Enter the number of the monster you want to play!" << endl;
+				cout << "Enter the number of the card you want to play!" << endl;
 				int index; cin >> index;
-				currentTurnPlayer.useCard(index); 
+				playedCard = currentTurnPlayer.playCard(index);
+				if(playedCard != NULL)
+				{
+					playedCard->useCard(&currentTurnPlayer , &inactivePlayer);
+				}
+				else
+					cout<<"Incorrect card number input!"<<endl;
 
 			break;
-			case spellOnHero : // use spell card on hero
-				currentTurnPlayer.getHand().printHand();
-				cout << "Enter the number of the spell you want to use!" << endl;
-				cin >> index;
-				int heroIndex;
-				cout<<"Press 1 to use the spell on your hero or 2 to use it on the enemy hero."<<endl;
-				cin>>heroIndex;
-				if(heroIndex == 1)
-					currentTurnPlayer.useSpellCard(index)->useSpellCard(currentTurnPlayer.getHero());
-				if(heroIndex == 2)
-					currentTurnPlayer.useSpellCard(index)->useSpellCard(inactivePlayer.getHero());
-			break;
-			case spellOnMonster : //use spell card on monster
-				currentTurnPlayer.getHand().printHand();
-				cout << "Enter the number of the spell you want to use!" << endl;
-				cin >> index;
-				int monsterIndex;
-				cout<<"\t\t==== Monsters on your field ===="<<endl;
-				currentTurnPlayer.printField();
-				cout<<"\t\t==== Monsters on enemy field ===="<<endl;
-				inactivePlayer.printField();
-				cout<<"Will you use the spell on enemy monster? y/n ";
-				char answer;
-				cin>>answer; cout<<endl;
-				cout<<"Enter the number of the monster on which you want to use the spell card"<<endl;
-				cin>>monsterIndex;
-				if(answer == 'y')
-					currentTurnPlayer.useSpellCard(index)->useSpellCard((Monster&)inactivePlayer.getField()[monsterIndex]);
-				else
-					currentTurnPlayer.useSpellCard(index)->useSpellCard((Monster&)currentTurnPlayer.getField()[monsterIndex]);
-			break;
-			case attackMonster : // attack enemy monster with your monster
+			case ATTACK_MONSTER : // attack enemy monster with your monster
 				if(currentTurnPlayer.fieldIsEmpty())
 				{
 					cout<<"You dont have monsters on the field with which to attack!"<<endl;
@@ -162,12 +131,10 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 					cout<<"This monster was set on the field this turn or has already attacked!"<<endl;
 					break;
 				}
-				currentTurnPlayer.getField()[attackingIndex]->print();
 				cout<<endl;
 				inactivePlayer.printField();
 				cout << "Enter the index of the monster you wish to attack!" << endl;
 				int defendingIndex; cin >> defendingIndex;
-				inactivePlayer.getField()[defendingIndex]->print(); 
 				currentTurnPlayer.getField()[attackingIndex]->attack((Monster*)inactivePlayer.getField()[defendingIndex]);
 				if(currentTurnPlayer.getField()[attackingIndex]->getHealth() <= 0)
 				{
@@ -180,7 +147,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 					inactivePlayer.removeCardFromField(defendingIndex);
 				}
 			break;
-			case attackHero : // attack enemy hero with your monster
+			case ATTACK_HERO : // attack enemy hero with your monster
 				if(currentTurnPlayer.fieldIsEmpty())
 				{
 					cout<<"You dont have monsters on the field with which to attack!"<<endl;
@@ -194,7 +161,6 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 					cout<<"This monster was set on the field this turn or has already attacked!"<<endl;
 					break;
 				}
-				currentTurnPlayer.getField()[attackingIndex]->printCard();
 				currentTurnPlayer.getField()[attackingIndex]->attack(inactivePlayer.getHero()); 
 				if(inactivePlayer.getHero()->getHealth() <= 0)
 				{
@@ -202,7 +168,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 					end = true;
 				}
 				break;
-			case useHeroPower : // use hero skill
+			case USE_HERO_POWER : // use hero skill
 				if(!(currentTurnPlayer.getHero()->hasAttacked()))
 				{
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
@@ -225,7 +191,8 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				else
 					cout<<"Hero has already used his power this turn!"<<endl;
 				break;
-			case seeOwnStats : // see own cards
+			case SEE_OWN_STATS : // see own cards
+				cout<<endl;
 				cout<<"your mana : "<<currentTurnPlayer.getMana()<<endl;
 				cout<<"\t\t==== Hand ===="<<endl;
 				currentTurnPlayer.getHand().printHand();
@@ -235,7 +202,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				for(int i = 0 ; i < currentTurnPlayer.getMonsterInField() ; i++)
 					currentTurnPlayer.getField()[i]->print();
 				break;
-			case seeEnemyStats : // see enemy field and hero
+			case SEE_ENEMY_STATS : // see enemy field and hero
 				cout<<"enemy mana : "<<inactivePlayer.getMana()<<endl;
 				cout<<"\t\t==== Hero ===="<<endl;
 				inactivePlayer.getHero()->print();
@@ -243,7 +210,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				for(int i = 0 ; i < inactivePlayer.getMonsterInField() ; i++)
 					inactivePlayer.getField()[i]->print();
 				break;
-			case endTurn : 
+			case END_TURN : 
 				end = true;
 				currentTurnPlayer.setMonsterHasAttacked(false);
 				currentTurnPlayer.getHero()->setHasAttacked(false);

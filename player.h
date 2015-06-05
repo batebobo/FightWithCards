@@ -5,6 +5,7 @@
 #include "hand.h"
 #include "Hero.h"
 #include "MyString.h"
+#include "monster.h"
 
 
 class Player
@@ -14,7 +15,7 @@ public:
 	Player(Player const&);
 	Player& operator=(Player const&);
     void print();
-    void useCard(int);
+    Card* playCard(int);
 	void removeCardFromField(int); 
 	void printField();
 
@@ -24,16 +25,16 @@ public:
 	void changeMana(int);
 	void drawCard();
 	void setMonsterHasAttacked(bool);
+	void increaseMonstersInField(int value) {monstersInField += value;}
 
 	Hand& getHand(){return hand;}
 	Deck& getDeck(){return deck;}
 	Hero* getHero(){return hero;}
 	Monster** getField(){return field;}
+
 	int getMonsterInField() const{return monstersInField;}
 	int getMana() const{return mana;}
-	Monster& getMonster(int);
 	Mystring getName() const{return name;}
-	Card* useSpellCard(int);
 
 private:
     Hand hand;

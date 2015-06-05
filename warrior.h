@@ -11,7 +11,7 @@ public:
 	void print() const;
 	void usePower(Hero*, Monster*, int);
 
-	bool hasDifferentTargets() const { return=false; }
+	//bool hasDifferentTargets() const { return=false; }
 };
 
 #endif

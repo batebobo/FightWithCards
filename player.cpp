@@ -37,42 +37,18 @@ void Player::print(){
     deck.printDeck();
 }
 
-void Player::useCard(int number){
-	Hand newHand = hand;
-	Card* toUse = newHand.useCard(number);
-	if(toUse->isMonster())
+Card* Player::playCard(int index){
+	for(int i = 0 ; i < getHand().cardCounter() ; i++)
 	{
-		if(toUse->getManacost() <= mana)
+		if(getHand().getCards()[i]->getNumber() == index)
 		{
-			field[monstersInField++] = (Monster*)hand.useCard(number);
-			field[monstersInField - 1]->setNumber(monstersInField - 1);
-			field[monstersInField - 1]->setHasAttacked(true);
-			mana -= toUse->getManacost();
+			if(getHand().getCards()[i]->getManacost() <= mana)
+				return getHand().getCards()[i];
+			else
+				cout<<"Not enought mana to play that card!"<<endl;
 		}
-		else
-			cout<<"Not enough mana to summon that monster!"<<endl;
 	}
-	else
-		cout<<"Selected card is not a monster!"<<endl;
-}
-
-Card* Player::useSpellCard(int number)
-{
-	Hand newHand = hand;
-	Card* toUse = newHand.useCard(number);
-	if(!(toUse->isMonster()))
-	{
-		if(toUse->getManacost() <= mana)
-		{
-			mana -= toUse->getManacost();
-			return hand.useCard(number);
-		}
-		else
-			cout<<"Not enough mana to use that spell card!"<<endl;
-	}
-	else
-		cout<<"Selected card is not a spell card!"<<endl;
-	return new Card();
+	return NULL;
 }
 
 void Player::removeCardFromField(int number)
@@ -107,15 +83,6 @@ void Player::printField()
 	for(int i = 0 ; i < monstersInField ; i++)
 		field[i]->print();
 	cout<<endl;
-}
-
-Monster& Player::getMonster(int number)
-{
-	for(int i = 0 ; i < monstersInField ; i++)
-		if(field[i]->getNumber() == number)
-			return (Monster&)field[i];
-	cout<<"Incorrect number input!"<<endl;
-	return Monster();
 }
 
 void Player::setMonsterHasAttacked(bool attacked)

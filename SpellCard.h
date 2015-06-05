@@ -8,7 +8,7 @@ class SpellCard : public Card
 {
 	//разбиване на класове
 public:
-	enum Effects {dealDamageToCreature, damageHero, buffCreature, healYourself};
+	enum Effects {DEAL_DAMAGE , INCREASE_HP};
 
 
 	SpellCard(Effects, char* = "", int = 0, int = 0,  int = 0);
@@ -23,12 +23,8 @@ public:
 
 	bool isMonster(){return false;}
 	
-	void dealDamageToMonster(Monster&);
-	void dealDamageToHero(Hero*);
-	void buffMonster(Monster&);
-	void healHero(Hero*);
-	void useSpellCard(Hero*);
-	void useSpellCard(Monster&);
+	void useSpellCard(Player* , Player*);
+
 	void print();
 
 	~SpellCard();

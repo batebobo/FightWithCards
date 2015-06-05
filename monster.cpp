@@ -17,6 +17,7 @@ void Monster::print ()
 	Card::printCard();
 	cout<<"Attack: "<<getAttack() <<endl;
 	cout<<"Health: "<<getHealth() <<endl;
+	cout<<endl;
 }
 
 void Monster::attack(Monster* m)
@@ -35,4 +36,20 @@ void Monster::attack(Hero* h)
 void Monster::setHasAttacked(bool attacked)
 {
 	has_attacked = attacked;
+}
+
+void Monster::setMonsterOnField(Player* currentPlayer)
+{
+	if(getManacost() <= currentPlayer->getMana())
+	{
+		int monsters = currentPlayer->getMonsterInField();
+		currentPlayer->getField()[monsters] = (Monster*)currentPlayer->getHand().useCard(getNumber());
+		currentPlayer->getField()[monsters]->setNumber(monsters);
+		currentPlayer->getField()[monsters]->setHasAttacked(true);
+		currentPlayer->changeMana(-getManacost());
+		currentPlayer->getHand().useCard(getNumber());
+		currentPlayer->increaseMonstersInField(1);
+	}
+	else
+		cout<<"Not enough mana to summon that monster!"<<endl;
 }

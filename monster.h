@@ -30,6 +30,7 @@ public:
 
 	bool hasAttacked() const{return has_attacked;}
 	bool isMonster() {return true;}
+	void setMonsterOnField(Player*);
 };
 
 #endif /* MONSTER_H_ */

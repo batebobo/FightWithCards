@@ -1,31 +1,24 @@
 #include "SpellCard.h"
+#include <string>
+#include <map>
 
 void SpellCard::setProperties(Effects _effect, int _effectValue) {
 
-
-	if(_effect < dealDamageToCreature || _effect > healYourself) {
-		effect = dealDamageToCreature;
+	if(_effect < DEAL_DAMAGE || _effect > INCREASE_HP) {
+		effect = DEAL_DAMAGE;
 	}
 	else {
 		effect = _effect;
 	}
 
 	switch(effect) {
-	case dealDamageToCreature:
-			readOnlyEffect =  new char[18];
-			strcpy(readOnlyEffect , "Just deals damage");
+	case DEAL_DAMAGE:
+			readOnlyEffect =  new char[13];
+			strcpy(readOnlyEffect , "Deals damage");
 			break;
-	case damageHero:
-			readOnlyEffect = new char[15];
-			strcpy(readOnlyEffect , "Damages hero");
-			break;
-	case buffCreature:
+	case INCREASE_HP:
 			readOnlyEffect = new char[17];
-			strcpy(readOnlyEffect , "Buffs creature");
-			break;
-	case healYourself:
-			readOnlyEffect = new char[26];
-			strcpy(readOnlyEffect , "Restores HP to the player");
+			strcpy(readOnlyEffect , "Increases health");
 			break;
 	}
 	effectValue = _effectValue;
@@ -35,42 +28,88 @@ SpellCard::SpellCard(Effects _effect, char* _name, int _number, int _cost,int _d
 	setProperties(_effect, _damage);
 }
 
-void SpellCard::dealDamageToMonster(Monster& creature) {
-	if(effect == Effects::dealDamageToCreature) { 
-		creature.setHealth(creature.getHealth() - effectValue);
-	}
-}
+void SpellCard::useSpellCard(Player* current, Player* other)
+{
 
-void SpellCard::dealDamageToHero(Hero* hero) {
-	if(effect == Effects::damageHero) { 
-		hero->setHealth(hero->getHealth() - effectValue);
-	}
-}
+	enum Options {HERO , MONSTER , OWN , ENEMY};
+	map <string , Options> m;
+	m["hero"] = HERO;
+	m["monster"] = MONSTER;
+	m["own"] = OWN;
+	m["enemy"] = ENEMY;
 
-void SpellCard::healHero(Hero* hero) {
-	if(effect == Effects::healYourself) {
-		hero->setHealth(hero->getHealth() + effectValue);
+	cout<<"Use spell card on hero or monster? ";
+	string choice;
+	cin>>choice;
+	Options firstChoice = m[choice];
+	cout<<endl;
+	cout<<"Use spell card on enemy or own target? ";
+	choice.clear();
+	cin>>choice;
+	Options secondChoice = m[choice];
+	cout<<endl;
+	bool swapped = false;
+	if(secondChoice == OWN)
+	{
+		Player* temp = current;
+		current = other;
+		other = temp;
+		swapped = true;
 	}
-}
-
-void SpellCard::buffMonster(Monster& monster) { 
-	if(effect == Effects::buffCreature) {
-		monster.setAttack(monster.getAttack() + effectValue);
+	
+	if(firstChoice == HERO)
+	{
+		if(effect == DEAL_DAMAGE)
+			other->getHero()->setHealth(other->getHero()->getHealth() - effectValue);
+		else
+			other->getHero()->setHealth(other->getHero()->getHealth() + effectValue);
+		if(!swapped)
+		{
+			current->changeMana(-getManacost());
+			current->getHand().useCard(getNumber());
+		}
+		else
+		{
+			other->changeMana(-getManacost());
+			other->getHand().useCard(getNumber());
+		}
 	}
-}
-
-
-void SpellCard::useSpellCard(Monster& monster) { 
-	switch(effect) { 
-	case dealDamageToCreature: dealDamageToMonster(monster); break;
-	case buffCreature: buffMonster(monster); break;
+	else if(firstChoice == MONSTER)
+	{
+		if(!(other->fieldIsEmpty()))
+		{
+			int monsterIndex;
+			other->printField();
+			cout<<endl;
+			cout<<"Enter the number of the monster you want to use your spell card on : ";
+			cin>>monsterIndex;
+			if(effect == DEAL_DAMAGE)
+			{
+				other->getField()[monsterIndex]->setHealth(other->getField()[monsterIndex]->getHealth() - effectValue);
+				if(other->getField()[monsterIndex]->getHealth() <= 0)
+				{
+					cout<<other->getField()[monsterIndex]->getName()<<" has died!"<<endl;
+					other->removeCardFromField(monsterIndex);
+				}
+			}
+			else
+				other->getField()[monsterIndex]->setHealth(other->getField()[monsterIndex]->getHealth() + effectValue);
+			if(!swapped)
+			{
+				current->changeMana(-getManacost());
+				current->getHand().useCard(getNumber());
+			}
+			else
+			{
+				other->changeMana(-getManacost());
+				other->getHand().useCard(getNumber());
+			}
+		}
+		else if(other->fieldIsEmpty())
+			cout<<"Player "<<other->getName()<<" has no monsters on his field!"<<endl;
 	}
-}
-void SpellCard::useSpellCard(Hero* hero) { 
-	switch(effect) { 
-	case damageHero: dealDamageToHero(hero); break;
-	case healYourself: healHero(hero); break;
-	}
+	else
+		cout<<"Incorrect input!"<<endl;
 }
 
 SpellCard::SpellCard(const SpellCard& spellCard) :Card(spellCard), readOnlyEffect(NULL) {
@@ -109,4 +148,5 @@ void SpellCard::print() {
 	printCard();
 	cout<<"Effect : "<<readOnlyEffect<<endl;
 	cout<<"Effect power : "<<effectValue<<endl;
+	cout<<endl;
 }

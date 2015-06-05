@@ -43,5 +43,5 @@ Card* Hand::useCard(int _number)
 			}
 			return hand[--number];
 		}
-	return new Card();
+	return NULL;
 }

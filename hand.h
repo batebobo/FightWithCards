@@ -19,7 +19,7 @@ public:
 	void printHand();
 	Card* useCard(int);
 	int cardCounter(){return number;}
-	Card& getCard(int);
+	Card** getCards(){return hand;}
 };
 
 #endif

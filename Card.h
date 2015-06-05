@@ -5,6 +5,7 @@
 
 class Monster;
 class Hero;
+class Player;
 
 class Card {
 private:
@@ -30,12 +31,13 @@ public:
 
 	virtual void attack(Monster*){}
 	virtual void attack(Hero*){}
-	virtual void useSpellCard(Monster&){}
-	virtual void useSpellCard(Hero*){}
+	virtual void useSpellCard(Player* , Player*){}
 	virtual bool isMonster(){return 0;}
 	virtual int getHealth() const{ return 10;}
 	virtual void setHasAttacked(bool){}
 	virtual bool hasAttacked() const{return 1;} 
+	void useCard(Player* , Player*);
+	virtual void setMonsterOnField(Player*){}
 };
 
 #endif CARD_H_

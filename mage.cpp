@@ -16,7 +16,7 @@ void Mage::usePower(Player* p)
 {
 	print();
 	cout<<endl;
-	cout<<"Use spell card on hero or monster? ";
+	cout<<"Use hero power on hero or monster? ";
 	enum Choice {MONSTER , HERO};
 	map<string,Choice> m;
 	m["monster"] = MONSTER;
