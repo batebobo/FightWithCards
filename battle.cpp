@@ -172,17 +172,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				if(!(currentTurnPlayer.getHero()->hasAttacked()))
 				{
 					if(currentTurnPlayer.getMana() >= currentTurnPlayer.getHero()->getSkillManacost())
-					{
-						cout<<"Do you want to use hero power on enemy target? y/n";
-						char answer;
-						cin>>answer;
-						if(answer == 'y')
-							currentTurnPlayer.getHero()->usePower(&inactivePlayer);
-						else if(answer == 'n')
-							currentTurnPlayer.getHero()->usePower(&currentTurnPlayer);
-						else
-							cout<<"Incorrect answer input!"<<endl;
-					}
+						currentTurnPlayer.getHero()->usePower(&currentTurnPlayer , &inactivePlayer);
 					else
 					{
 						cout<<"Not enough mana!"<<endl; break;

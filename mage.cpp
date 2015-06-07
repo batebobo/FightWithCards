@@ -12,9 +12,20 @@ void Mage::print() const
 	cout<<"Power : Deals 1 damage to selected hero or monster"<<endl;
 }
 
-void Mage::usePower(Player* p)
+void Mage::usePower(Player* currentPlayer , Player* inactivePlayer)
 {
 	print();
+	cout<<"Use hero power on enemy target? y/n ";
+	string answer;
+	cin>>answer;
+	bool switched = false;
+	if(answer == "n")
+	{
+		Player* temp = currentPlayer;
+		currentPlayer = inactivePlayer;
+		inactivePlayer = temp;
+		switched = true;
+	}
 	cout<<endl;
 	cout<<"Use hero power on hero or monster? ";
 	enum Choice {MONSTER , HERO};
@@ -26,17 +37,30 @@ void Mage::usePower(Player* p)
 	Choice choice = m[input];
 	if(choice == HERO)
 	{
-		p->getHero()->setHealth(p->getHero()->getHealth() - 1);
+		inactivePlayer->getHero()->setHealth(inactivePlayer->getHero()->getHealth() - 1);
 		setHasAttacked(true);
+		if(switched)
+			inactivePlayer->changeMana(-2);
+		else
+			currentPlayer->changeMana(-2);
 	}
 	else if(choice == MONSTER)
 	{
-		p->printField();
-		cout<<"Enter the index of the monster you want to use the hero power on : ";
-		int monsterIndex;
-		cin>>monsterIndex;
-		p->getField()[monsterIndex]->setHealth(p->getField()[monsterIndex]->getHealth() - 1);
-		setHasAttacked(true);
+		if(!(inactivePlayer->fieldIsEmpty()))
+		{
+			inactivePlayer->printField();
+			cout<<"Enter the index of the monster you want to use the hero power on : ";
+			int monsterIndex;
+			cin>>monsterIndex;
+			inactivePlayer->getField()[monsterIndex]->setHealth(inactivePlayer->getField()[monsterIndex]->getHealth() - 1);
+			setHasAttacked(true);
+			if(switched)
+				inactivePlayer->changeMana(-2);
+			else
+				currentPlayer->changeMana(-2);
+		}
+		else
+			cout<<"No monsters on "<<inactivePlayer->getName()<<"'s field!"<<endl;
 	}
 	else
 		cout<<"Incorrect command input!"<<endl;
