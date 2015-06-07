@@ -16,9 +16,11 @@ void Hunter::print() const
 	cout<<"Power: Deals 2 damage to the enemy hero."<<endl;
 }
 
-void Hunter::usePower(Hero* h, Monster* m, int choice)
+void Hunter::usePower(Player* currentPlayer, Player* inactivePlayer)
 {
-	h.setHealth(getHealth()-2);
+	print();
+	inactivePlayer->getHero()->setHealth(inactivePlayer->getHero()->getHealth() - 1);
 	setHasAttacked(true);
+	currentPlayer->changeMana(-2);
 }
 
