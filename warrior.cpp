@@ -12,8 +12,10 @@ void Warrior::print () const
 	cout<<"Power: Increases his health by 2."<<endl;
 }
 
-void Warrior::usePower(Hero* h, Monster* m, int choice)
+void Warrior::usePower(Player* currentPlayer, Player* inactivePlayer)
 {
-    Hero::setHealth(getHealth()+2);
+	print();
+    	currentPlayer->getHero()->setHealth(currentPlayer->getHero()->getHealth() +2);
 	setHasAttacked(true);
+	currentPlayer->changeMana(-2);
 }
