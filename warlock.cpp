@@ -13,8 +13,10 @@ void Warlock::print() const
 	cout<<"Power: Draw a card and lose 2 health."<<endl;
 }
 
-void Warlock::usePower(Hero* h, Monster* m, int choice)
+void Warlock::usePower(Player* currentPlayer, Player* inactivePlayer)
 {
-	Hero::setHealth(getHealth()-2);
-	Hero::getHand().drawCard(Hero::getDeck());
+	print();
+	currentPlayer.getHero()->setHealth(currentPlayer->getHero()->getHealth()-2);
+	currentPlayer->getHand().drawCard(currentPlayer->getDeck());
+	currentPlayer->changeMana(-2);
 }
