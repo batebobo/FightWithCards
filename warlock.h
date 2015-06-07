@@ -8,7 +8,7 @@ public:
 	Warlock(char* = "Warlock", int = 30, int = 2, bool = false);
 
 	void print() const;
-	void usePower(Hero*, Monster*, int);
+	void usePower(Player*, Player*);
 };
 
 #endif
