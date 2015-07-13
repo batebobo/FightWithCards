@@ -47,18 +47,26 @@ int main()
     SpellCard pyroblast("Pyroblast", 18, 10, 10);
     SpellCard blessing("Blessing of Kings", 19, 4, 4);*/
     HealHeroSpell healing("Healing Touch", 20, 3, 8);
+	DamageMonster damage("damage",21,1,1);
+	HealMonster heal("heal",22,1,1);
    
     Card* cards[30];
-    for(int i = 0 ; i<30;i += 3){
+    for(int i = 0 ; i<30;i += 6){
             cards[i] = new Monster(murloc);
             cards[i + 1] = new Monster(rager);
 			cards[i + 2] = new DamageHeroSpell(darkbomb);
+			cards[i + 3] = new HealHeroSpell(healing);
+			cards[i + 4] = new HealMonster(heal);
+			cards[i + 5] = new DamageMonster(damage);
     }
 	 Card* cards2[30];
-   for(int i = 0 ; i<30;i += 3){
+   for(int i = 0 ; i<30;i += 6){
             cards2[i] = new Monster(murloc);
             cards2[i + 1] = new Monster(rager);
-			cards[i + 2] = new DamageHeroSpell(darkbomb);
+			cards2[i + 2] = new DamageHeroSpell(darkbomb);
+			cards2[i + 3] = new HealHeroSpell(healing);
+			cards2[i + 4] = new HealMonster(heal);
+			cards2[i + 5] = new DamageMonster(damage);
     }
     Deck myDeck("best deck eu",cards);
 	Deck PcDeck("pc" , cards2);

@@ -49,6 +49,7 @@ void Monster::useCard(Player* currentPlayer , Player* inactivePlayer)
 		currentPlayer->getField()[monsters] = (Monster*)currentPlayer->getHand().useCard(getNumber());
 		currentPlayer->getField()[monsters]->setNumber(monsters);
 		currentPlayer->getField()[monsters]->setHasAttacked(true);
+		cout<<currentPlayer->getName()<<" set "<<currentPlayer->getField()[monsters]->getName()<<" on his field!\n";
 		currentPlayer->changeMana(-getManacost());
 		currentPlayer->getHand().useCard(getNumber());
 		currentPlayer->increaseMonstersInField(1);

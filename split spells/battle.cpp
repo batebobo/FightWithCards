@@ -104,12 +104,7 @@ void Battle::play(Player& currentTurnPlayer, Player& inactivePlayer)
 				int index; cin >> index;
 				playedCard = currentTurnPlayer.playCard(index);
 				if(playedCard != NULL)
-				{
-					if(playedCard->getManacost() > currentTurnPlayer.getMana())
-						cout<<"Not enough mana!"<<endl;
-					else
-						playedCard->useCard(&currentTurnPlayer , &inactivePlayer);
-				}
+					playedCard->useCard(&currentTurnPlayer , &inactivePlayer);
 				else
 					cout<<"Incorrect card number input!"<<endl;
 

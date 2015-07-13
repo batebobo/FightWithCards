@@ -27,24 +27,28 @@ void DamageMonster::useCard(Player* currentPlayer, Player* inactivePlayer)
 			cout<<"Enter the number of the monster you want to use your spell card on : ";
 			cin>>monsterIndex;
 			inactivePlayer->getField()[monsterIndex]->setHealth(inactivePlayer->getField()[monsterIndex]->getHealth() - effectValue);
-
-			cout<<inactivePlayer->getName()<<"'s "<<inactivePlayer->getField()[monsterIndex]->getName()<<" received "<<getEffectValue()<<" damage!"<<endl;
-			if(inactivePlayer->getField()[monsterIndex]->getHealth() <= 0)
+			if(inactivePlayer->getField()[monsterIndex] != NULL)
 			{
-				cout<<inactivePlayer->getField()[monsterIndex]->getName()<<" has died!"<<endl;
-				inactivePlayer->removeCardFromField(monsterIndex);
-			}
+				cout<<inactivePlayer->getName()<<"'s "<<inactivePlayer->getField()[monsterIndex]->getName()<<" received "<<getEffectValue()<<" damage!"<<endl;
+				if(inactivePlayer->getField()[monsterIndex]->getHealth() <= 0)
+				{
+					cout<<inactivePlayer->getField()[monsterIndex]->getName()<<" has died!"<<endl;
+					inactivePlayer->removeCardFromField(monsterIndex);
+				}
 
-			if(!swapped)
-			{
-				currentPlayer->changeMana(-getManacost());
-				currentPlayer->getHand().useCard(getNumber());
+				if(!swapped)
+				{
+					currentPlayer->changeMana(-getManacost());
+					currentPlayer->getHand().useCard(getNumber());
+				}
+				else
+				{
+					inactivePlayer->changeMana(-getManacost());
+					inactivePlayer->getHand().useCard(getNumber());
+				}
 			}
 			else
-			{
-				inactivePlayer->changeMana(-getManacost());
-				inactivePlayer->getHand().useCard(getNumber());
-			}
+				cout<<"Incorrect index input!\n";
 		}
 		else if(inactivePlayer->fieldIsEmpty())
 			cout<<"Player "<<inactivePlayer->getName()<<" has no monsters on his field!"<<endl;
