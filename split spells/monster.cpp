@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include "player.h"
 #include "monster.h"
 
 using namespace std;
